@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SampleComposeApp</string>
+    <string name="app_continue">Continue</string>
+    <string name="test_text">Please do not create new issues on GitHub. We will close this possibility</string>
 </resources>
