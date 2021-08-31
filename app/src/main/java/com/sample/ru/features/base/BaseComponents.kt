@@ -1,4 +1,4 @@
-package com.sample.ru
+package com.sample.ru.features.base
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.sample.ru.ui.theme.SampleComposeAppTheme
+import com.sample.ru.R
 
 @Composable
 fun ArrowSample() {

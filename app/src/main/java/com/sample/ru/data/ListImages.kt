@@ -1,4 +1,4 @@
-package com.sample.ru
+package com.sample.ru.data
 
 //лента еды
 const val butter = "https://foodish-api.herokuapp.com/images/butter-chicken/butter-chicken8.jpg"
