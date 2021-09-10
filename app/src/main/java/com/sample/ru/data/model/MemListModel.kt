@@ -2,7 +2,7 @@ package com.sample.ru.data.model
 
 import com.google.gson.annotations.SerializedName
 
-class MemList(
+class MemListModel(
     @SerializedName("data")
-    val memes: List<Mem>
+    val memes: List<MemModel>
 )

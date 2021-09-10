@@ -18,7 +18,7 @@ val lightThemeColors = lightColors(
     onSecondary = White,
     onBackground = Black,
     onSurface = Black,
-    onError = White
+    onError = LightError
 )
 
 val darkThemeColors = darkColors(
@@ -32,7 +32,7 @@ val darkThemeColors = darkColors(
     onSecondary = White,
     onBackground = White,
     onSurface = White,
-    onError = Black
+    onError = DarkError
 )
 
 @Composable

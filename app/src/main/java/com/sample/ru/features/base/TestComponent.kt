@@ -121,7 +121,7 @@ fun TestText() {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()
     ) {
-        val (logo, title, description) = createRefs()
+        val (logo, title, description, image) = createRefs()
 
         Image(
             painter = painterResource(id = R.drawable.ic_gallery),
@@ -146,9 +146,20 @@ fun TestText() {
             style = TextStyle(textAlign = TextAlign.Justify),
             modifier = Modifier.constrainAs(description) {
                 top.linkTo(title.bottom)
-                linkTo(start = title.start, end = title.end, endMargin = 8.dp)
+                linkTo(start = title.start, end = image.start, endMargin = 8.dp)
                 width = Dimension.fillToConstraints
             }
+        )
+
+        Image(
+            painter = painterResource(R.drawable.ic_arrow_forward),
+            contentDescription = "",
+            modifier = Modifier
+                .constrainAs(image) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                }
         )
     }
 

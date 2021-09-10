@@ -2,7 +2,7 @@ package com.sample.ru.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Photo(
+data class PhotoModel(
     @SerializedName("id")
     val id: String,
     @SerializedName("author")

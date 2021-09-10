@@ -1,42 +1,8 @@
 package com.sample.ru.data
 
-import androidx.compose.runtime.Composable
-
-//лента еды
-const val butter = "https://foodish-api.herokuapp.com/images/butter-chicken/butter-chicken8.jpg"
-const val dessert = "https://foodish-api.herokuapp.com/images/dessert/dessert16.jpg"
-const val butter2 = "https://foodish-api.herokuapp.com/images/butter-chicken/butter-chicken3.jpg"
-const val dosa = "https://foodish-api.herokuapp.com/images/dosa/dosa20.jpg"
-const val idly = "https://foodish-api.herokuapp.com/images/idly/idly6.jpg"
-const val pasta = "https://foodish-api.herokuapp.com/images/pasta/pasta16.jpg"
-const val pizza = "https://foodish-api.herokuapp.com/images/pizza/pizza91.jpg"
-const val rice = "https://foodish-api.herokuapp.com/images/rice/rice5.jpg"
-const val samosa = "https://foodish-api.herokuapp.com/images/samosa/samosa11.jpg"
-
-val homeImages = listOf(
-    FoodModel(butter, "Butter"),
-    FoodModel(dessert, "Dessert"),
-    FoodModel(butter2, "Butter2"),
-    FoodModel(dosa, "Dosa"),
-    FoodModel(idly, "Idly"),
-    FoodModel(pasta, "Pasta"),
-    FoodModel(pizza, "Pizza"),
-    FoodModel(rice, "Rice"),
-    FoodModel(samosa, "Samosa")
-)
-
-val thematic = listOf(
-    "Movies",
-    "Psychology",
-    "Music",
-    "Books",
-    "Comics",
-    "Games",
-    "Anime",
-    "Sports"
-)
 
 
+//TODO
 //таб 1
 
 //горизонтальный список - новости

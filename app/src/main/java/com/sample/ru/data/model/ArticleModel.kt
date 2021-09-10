@@ -2,7 +2,7 @@ package com.sample.ru.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ArticleModel(
     @SerializedName("id")
     val id: Int,
     @SerializedName("title")

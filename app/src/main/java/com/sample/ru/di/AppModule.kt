@@ -1,9 +1,7 @@
 package com.sample.ru.di
 
 import com.sample.ru.BuildConfig
-import com.sample.ru.data.network.MemesRestService
-import com.sample.ru.data.network.NewsRestService
-import com.sample.ru.data.network.PhotoRestService
+import com.sample.ru.data.network.*
 import com.sample.ru.util.createRestService
 import dagger.Module
 import dagger.Provides
@@ -68,5 +66,13 @@ object AppModule {
         BuildConfig.PHOTO_BASE_URL,
         PhotoRestService::class.java
     )
+
+    @Provides
+    @Singleton
+    fun provideFoodService(): FoodService = FoodService()
+
+    @Provides
+    @Singleton
+    fun provideThematicService(): ThematicService = ThematicService()
 
 }

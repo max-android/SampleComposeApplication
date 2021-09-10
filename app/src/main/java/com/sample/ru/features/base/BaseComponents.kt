@@ -25,6 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.sample.ru.ui.theme.SampleComposeAppTheme
 import com.sample.ru.R
 import com.sample.ru.ui.theme.Gray
+import timber.log.Timber
 
 @Composable
 fun ArrowSample() {
@@ -489,11 +490,27 @@ fun TextButtonComponent() {
 
 @Composable
 fun LoadProgress() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         CircularProgressIndicator(
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(36.dp)
+                .size(56.dp),
+            color = MaterialTheme.colors.primaryVariant
+        )
+    }
+}
+
+@Composable
+fun LoadError() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(R.drawable.ic_error),
+            contentDescription = null,
+            modifier = Modifier
+                .size(125.dp)
+                .align(Alignment.Center)
         )
     }
 }
@@ -513,7 +530,7 @@ fun BaseSpacer() {
 @Composable
 fun CheckList1Preview() {
     SampleComposeAppTheme() {
-        ArrowSample2()
-        //  SampleConstraintLayout2()
+        //ArrowSample2()
+        // LoadProgress(true)
     }
 }

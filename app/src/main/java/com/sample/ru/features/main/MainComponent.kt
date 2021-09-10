@@ -1,6 +1,5 @@
 package com.sample.ru.features.main
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -24,13 +23,12 @@ import com.sample.ru.features.profile.ProfileScreenFactory
 import com.sample.ru.navigation.*
 import com.sample.ru.ui.theme.Purple700
 
-@ExperimentalFoundationApi
 @Composable
 fun MainComponent() {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val viewModel = hiltViewModel<MainViewModel>()
+    //val viewModel = hiltViewModel<MainViewModel>()
 
     Scaffold(
         bottomBar = {
