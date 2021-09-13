@@ -1,6 +1,7 @@
 package com.sample.ru.data.repository
 
 import com.sample.ru.data.network.*
+import com.sample.ru.data.service.CacheService
 import com.sample.ru.features.home.ErrorHome
 import com.sample.ru.features.home.HomeState
 import com.sample.ru.features.home.SuccessHome
@@ -14,7 +15,8 @@ class HomeRepository(
     private val newsRestService: NewsRestService,
     private val photoRestService: PhotoRestService,
     private val foodService: FoodService,
-    private val thematicService: ThematicService
+    private val thematicService: ThematicService,
+    private val cacheService: CacheService
 ) {
 
     suspend fun loadHomeData(): HomeState {
@@ -28,6 +30,7 @@ class HomeRepository(
                 val memes = memesDeferred.await().getBodyDto().memes
                 val articles = articlesDeferred.await().getBodyDto()
                 val photos = photosDeferred.await().getBodyDto()
+                cacheService.createCache(memes, articles)
                 SuccessHome(
                     memes, articles, photos, foodService.foodImages, thematicService.thematic
                 )

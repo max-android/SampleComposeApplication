@@ -17,4 +17,4 @@ data class ArticleModel(
     val newsSite: String,
     @SerializedName("publishedAt")
     val publishedAt: String,
-)
+): BaseModel

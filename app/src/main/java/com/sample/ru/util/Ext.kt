@@ -1,5 +1,7 @@
 package com.sample.ru.util
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,3 +18,6 @@ fun <T> createRestService(
         client(okHttpClient)
     }.build().create(service)
 }
+
+@Composable
+fun composeContext() = LocalContext.current

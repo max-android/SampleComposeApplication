@@ -13,4 +13,4 @@ data class MemModel(
     val author: String,
     @SerializedName("created")
     val created: String
-)
+): BaseModel

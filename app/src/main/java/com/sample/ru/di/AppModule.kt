@@ -2,6 +2,7 @@ package com.sample.ru.di
 
 import com.sample.ru.BuildConfig
 import com.sample.ru.data.network.*
+import com.sample.ru.data.service.CacheService
 import com.sample.ru.util.createRestService
 import dagger.Module
 import dagger.Provides
@@ -74,5 +75,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideThematicService(): ThematicService = ThematicService()
+
+    @Provides
+    @Singleton
+    fun provideCacheService(): CacheService = CacheService()
 
 }
