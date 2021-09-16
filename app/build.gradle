@@ -42,7 +42,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion kotlin_version
     }
     packagingOptions {
         resources {
@@ -110,11 +110,11 @@ dependencies {
     implementation 'androidx.collection:collection-ktx:1.2.0-alpha01'
 
     // Сoroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     // GSON
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
