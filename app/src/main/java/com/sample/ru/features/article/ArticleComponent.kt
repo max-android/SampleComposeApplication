@@ -1,4 +1,4 @@
-package com.sample.ru.features.mem
+package com.sample.ru.features.article
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -20,50 +20,50 @@ import androidx.navigation.compose.navArgument
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.sample.ru.R
-import com.sample.ru.data.model.MemModel
+import com.sample.ru.data.model.ArticleModel
 import com.sample.ru.features.base.EmptyDetailItemUi
 import com.sample.ru.navigation.ComposeNavFactory
-import com.sample.ru.navigation.KEY_MEM_ID
+import com.sample.ru.navigation.KEY_ARTICLE_ID
 import com.sample.ru.navigation.Screen
 import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.DEFAULT_POSITION
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
 
-class MemScreenFactory : ComposeNavFactory {
+class ArticleScreenFactory : ComposeNavFactory {
 
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(
-            route = Screen.MemScreen.route + "/{${KEY_MEM_ID}}",
+            route = Screen.ArticleScreen.route + "/{$KEY_ARTICLE_ID}",
             arguments = listOf(
-                navArgument(KEY_MEM_ID) {
+                navArgument(KEY_ARTICLE_ID) {
                     type = NavType.IntType
                 }
             )
         ) {
-            MemComponent(it)
+            ArticleComponent(it)
         }
     }
 
     @Composable
-    private fun MemComponent(backStackEntry: NavBackStackEntry) {
-        val viewModel = hiltViewModel<MemViewModel>()
-        val position = backStackEntry.arguments?.getInt(KEY_MEM_ID) ?: DEFAULT_POSITION
+    private fun ArticleComponent(backStackEntry: NavBackStackEntry) {
+        val viewModel = hiltViewModel<ArticleViewModel>()
+        val position = backStackEntry.arguments?.getInt(KEY_ARTICLE_ID) ?: DEFAULT_POSITION
         if (!viewModel.isShowContent) {
-            viewModel.obtainEvent(ShowContentMemEvent(position))
+            viewModel.obtainEvent(ShowContentArticleEvent(position))
         }
-        val state: MemState? by viewModel.state.collectAsState()
+        val state: ArticleState? by viewModel.state.collectAsState()
         ObserveState(state)
     }
 
     @Composable
-    private fun ObserveState(state: MemState?) {
-        state?.let { memState ->
-            when (memState) {
-                is SuccessMem -> {
-                    MemUi(memState.mem)
+    private fun ObserveState(state: ArticleState?) {
+        state?.let { articleState ->
+            when (articleState) {
+                is SuccessArticle -> {
+                    ArticleUi(articleState.article)
                 }
-                is EmptyMem -> {
+                is EmptyArticle -> {
                     EmptyDetailItemUi()
                 }
             }
@@ -71,11 +71,11 @@ class MemScreenFactory : ComposeNavFactory {
     }
 
     @Composable
-    private fun MemUi(mem: MemModel) {
+    private fun ArticleUi(article: ArticleModel) {
         Column(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = rememberImagePainter(
-                    data = mem.memUrl,
+                    data = article.imageUrl,
                     builder = {
                         crossfade(true)
                         placeholder(R.drawable.ic_placeholder)
@@ -94,14 +94,22 @@ class MemScreenFactory : ComposeNavFactory {
                     .padding(8.dp),
                 style = MaterialTheme.typography.body1,
                 color = Color.Black,
-                text = mem.title,
+                text = article.title,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                style = MaterialTheme.typography.body2,
+                color = Color.Black,
+                text = article.summary,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.caption,
                 color = Purple700,
                 text = composeContext().getString(
-                    R.string.memes_created, mem.created.toDate(), mem.author
+                    R.string.new_created, article.publishedAt.toDate(), article.newsSite
                 ),
             )
         }

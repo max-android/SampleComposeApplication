@@ -12,10 +12,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -26,6 +24,7 @@ import coil.transform.RoundedCornersTransformation
 import com.sample.ru.R
 import com.sample.ru.data.model.BaseModel
 import com.sample.ru.data.model.MemModel
+import com.sample.ru.features.base.EmptyListUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.navigation.navigateSafe
@@ -66,7 +65,7 @@ private fun ObserveState(state: MemesState?, navigateToMem: (Int) -> Unit) {
                 MemesUi(memState.memes, navigateToMem)
             }
             is EmptyMemes -> {
-                EmptyMemesUi()
+                EmptyListUi()
             }
         }
     }
@@ -75,7 +74,7 @@ private fun ObserveState(state: MemesState?, navigateToMem: (Int) -> Unit) {
 @Composable
 private fun MemesUi(listMemes: List<BaseModel>, navigateToMem: (Int) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 68.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(listMemes) { index, item ->
@@ -83,20 +82,6 @@ private fun MemesUi(listMemes: List<BaseModel>, navigateToMem: (Int) -> Unit) {
                 MemItem(item, index, navigateToMem)
             }
         }
-    }
-}
-
-@Composable
-private fun EmptyMemesUi() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_view_list),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(start = 16.dp, top = 16.dp)
-                .size(250.dp)
-                .align(Alignment.Center)
-        )
     }
 }
 

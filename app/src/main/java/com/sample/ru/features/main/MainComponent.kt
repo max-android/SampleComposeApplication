@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -18,8 +17,9 @@ import com.sample.ru.features.gallery.GalleryScreenFactory
 import com.sample.ru.features.home.HomeScreenFactory
 import com.sample.ru.features.mem.MemScreenFactory
 import com.sample.ru.features.memes.MemesScreenFactory
-import com.sample.ru.features.news.DetailNewsScreenFactory
+
 import com.sample.ru.features.news.ListNewsScreenFactory
+import com.sample.ru.features.article.ArticleScreenFactory
 import com.sample.ru.features.profile.ProfileScreenFactory
 import com.sample.ru.navigation.*
 import com.sample.ru.ui.theme.Purple700
@@ -79,7 +79,7 @@ fun MainComponent() {
                 GalleryScreenFactory().create(this, navController)
                 ProfileScreenFactory().create(this, navController)
                 ListNewsScreenFactory().create(this, navController)
-                DetailNewsScreenFactory().create(this, navController)
+                ArticleScreenFactory().create(this, navController)
                 MemesScreenFactory().create(this, navController)
                 MemScreenFactory().create(this, navController)
                 DetailImageScreenFactory().create(this, navController)

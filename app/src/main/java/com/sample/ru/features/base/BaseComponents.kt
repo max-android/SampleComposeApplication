@@ -534,3 +534,33 @@ fun CheckList1Preview() {
         // LoadProgress(true)
     }
 }
+
+@Preview
+@Composable
+fun EmptyListUi() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_view_list),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp)
+                .size(250.dp)
+                .align(Alignment.Center)
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EmptyDetailItemUi() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_placeholder),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp)
+                .size(250.dp)
+                .align(Alignment.Center)
+        )
+    }
+}

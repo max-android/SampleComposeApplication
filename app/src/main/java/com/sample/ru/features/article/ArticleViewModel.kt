@@ -1,8 +1,8 @@
-package com.sample.ru.features.mem
+package com.sample.ru.features.article
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sample.ru.data.repository.MemesRepository
+import com.sample.ru.data.repository.ListNewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MemViewModel @Inject constructor(
-    private val repository: MemesRepository
+class ArticleViewModel @Inject constructor(
+    private val repository: ListNewsRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<MemState?>(null)
-    val state: StateFlow<MemState?> = _state.asStateFlow()
+    private val _state = MutableStateFlow<ArticleState?>(null)
+    val state: StateFlow<ArticleState?> = _state.asStateFlow()
     var isShowContent = false
 
-    fun obtainEvent(event: MemEvent) {
+    fun obtainEvent(event: ArticleEvent) {
         when (event) {
-            is ShowContentMemEvent -> {
+            is ShowContentArticleEvent -> {
                 showContentAction(event.position)
             }
         }
@@ -30,7 +30,7 @@ class MemViewModel @Inject constructor(
     private fun showContentAction(item: Int) {
         isShowContent = true
         viewModelScope.launch {
-            _state.emit(repository.mem(item))
+            _state.emit(repository.article(item))
         }
     }
 

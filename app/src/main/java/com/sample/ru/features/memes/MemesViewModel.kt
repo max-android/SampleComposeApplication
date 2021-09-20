@@ -29,7 +29,7 @@ class MemesViewModel @Inject constructor(
                 showContentAction()
             }
             is ClickMemEvent -> {
-                clickMemEvent(event.position)
+                clickMemAction(event.position)
             }
         }
     }
@@ -40,7 +40,7 @@ class MemesViewModel @Inject constructor(
         }
     }
 
-    private fun clickMemEvent(position: Int) {
+    private fun clickMemAction(position: Int) {
         viewModelScope.launch {
             _sideEffect.emit(StartMem(position))
         }
