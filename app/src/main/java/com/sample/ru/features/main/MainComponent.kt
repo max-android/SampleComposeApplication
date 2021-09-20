@@ -12,14 +12,13 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.sample.ru.features.gallery.DetailImageScreenFactory
 import com.sample.ru.features.gallery.GalleryScreenFactory
 import com.sample.ru.features.home.HomeScreenFactory
 import com.sample.ru.features.mem.MemScreenFactory
 import com.sample.ru.features.memes.MemesScreenFactory
-
 import com.sample.ru.features.news.ListNewsScreenFactory
 import com.sample.ru.features.article.ArticleScreenFactory
+import com.sample.ru.features.detailPhoto.DetailPhotoScreenFactory
 import com.sample.ru.features.profile.ProfileScreenFactory
 import com.sample.ru.navigation.*
 import com.sample.ru.ui.theme.Purple700
@@ -82,7 +81,7 @@ fun MainComponent() {
                 ArticleScreenFactory().create(this, navController)
                 MemesScreenFactory().create(this, navController)
                 MemScreenFactory().create(this, navController)
-                DetailImageScreenFactory().create(this, navController)
+                DetailPhotoScreenFactory().create(this, navController)
             }
         }
     )

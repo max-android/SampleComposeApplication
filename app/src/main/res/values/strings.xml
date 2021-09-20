@@ -11,4 +11,9 @@
 
     //ListNews
     <string name="new_created">Created %1$s by %2$s</string>
+
+    //Gallery
+    <string name="gallery_created">Created by %1$s</string>
+
+
 </resources>

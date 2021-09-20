@@ -30,7 +30,7 @@ class HomeRepository(
                 val memes = memesDeferred.await().getBodyDto().memes
                 val articles = articlesDeferred.await().getBodyDto()
                 val photos = photosDeferred.await().getBodyDto()
-                cacheService.createCache(memes, articles)
+                cacheService.createCache(memes, articles, photos)
                 SuccessHome(
                     memes, articles, photos, foodService.foodImages, thematicService.thematic
                 )

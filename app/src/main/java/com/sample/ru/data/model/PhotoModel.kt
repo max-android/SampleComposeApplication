@@ -11,4 +11,4 @@ data class PhotoModel(
     val url: String,
     @SerializedName("download_url")
     val downloadUrl: String
-)
+): BaseModel

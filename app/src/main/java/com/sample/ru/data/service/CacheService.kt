@@ -4,26 +4,37 @@ import androidx.collection.arrayMapOf
 import com.sample.ru.data.model.ArticleModel
 import com.sample.ru.data.model.BaseModel
 import com.sample.ru.data.model.MemModel
+import com.sample.ru.data.model.PhotoModel
 
 class CacheService {
 
-    private val memes = arrayMapOf<String, List<BaseModel>>()
+    private val cache = arrayMapOf<String, List<BaseModel>>()
 
-    fun createCache(listMemes: List<MemModel>, listNews: List<ArticleModel>) {
-        memes[MEM_CACHE] = listMemes
-        memes[ARTICLE_CACHE] = listNews
+    fun createCache(
+        listMemes: List<MemModel>,
+        listNews: List<ArticleModel>,
+        listPhotos: List<PhotoModel>
+    ) {
+        cache[MEM_CACHE] = listMemes
+        cache[ARTICLE_CACHE] = listNews
+        cache[PHOTOS_CACHE] = listPhotos
     }
 
     fun memesCache(): List<BaseModel> {
-        return memes[MEM_CACHE] ?: listOf()
+        return cache[MEM_CACHE] ?: listOf()
     }
 
     fun articlesCache(): List<BaseModel> {
-        return memes[ARTICLE_CACHE] ?: listOf()
+        return cache[ARTICLE_CACHE] ?: listOf()
+    }
+
+    fun photosCache(): List<BaseModel> {
+        return cache[PHOTOS_CACHE] ?: listOf()
     }
 
     companion object {
         private const val MEM_CACHE = "mem_cache"
         private const val ARTICLE_CACHE = "article_cache"
+        private const val PHOTOS_CACHE = "photos_cache"
     }
 }
