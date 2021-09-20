@@ -7,5 +7,6 @@ object NavRoute {
     const val LIST_NEWS_ROUTE = "list_news"
     const val DETAIL_NEWS_ROUTE = "detail_news"
     const val MEMES_ROUTE = "memes"
+    const val MEM_ROUTE = "mem"
     const val DETAIL_IMAGE_ROUTE = "detail_image"
 }

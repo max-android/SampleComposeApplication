@@ -1,9 +1,10 @@
 package com.sample.ru.features.memes
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -27,6 +28,7 @@ import com.sample.ru.data.model.BaseModel
 import com.sample.ru.data.model.MemModel
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
+import com.sample.ru.navigation.navigateSafe
 import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
@@ -34,26 +36,34 @@ import com.sample.ru.util.toDate
 class MemesScreenFactory : ComposeNavFactory {
 
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
-        navGraphBuilder.composable(Screen.MemesScreen.route) {
-            MemesComponent()
+        navGraphBuilder.composable(
+            route = Screen.MemesScreen.route
+        ) {
+            MemesComponent(navController)
         }
     }
 
 }
 
 @Composable
-private fun MemesComponent() {
+private fun MemesComponent(navController: NavController) {
     val viewModel = hiltViewModel<MemesViewModel>()
     val state: MemesState? by viewModel.state.collectAsState()
-    ObserveState(state)
+    val sideEffect: MemesSideEffect? by viewModel.sideEffect.collectAsState(null)
+    ObserveState(
+        state,
+        navigateToMem = { position ->
+            viewModel.obtainEvent(ClickMemEvent(position))
+        })
+    ObserveSideEffect(sideEffect, navController)
 }
 
 @Composable
-private fun ObserveState(state: MemesState?) {
+private fun ObserveState(state: MemesState?, navigateToMem: (Int) -> Unit) {
     state?.let { memState ->
         when (memState) {
             is SuccessMemes -> {
-                MemesUi(memState.memes)
+                MemesUi(memState.memes, navigateToMem)
             }
             is EmptyMemes -> {
                 EmptyMemesUi()
@@ -63,14 +73,14 @@ private fun ObserveState(state: MemesState?) {
 }
 
 @Composable
-private fun MemesUi(listMemes: List<BaseModel>) {
+private fun MemesUi(listMemes: List<BaseModel>, navigateToMem: (Int) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(listMemes) { item ->
+        itemsIndexed(listMemes) { index, item ->
             if (item is MemModel) {
-                MemItem(item)
+                MemItem(item, index, navigateToMem)
             }
         }
     }
@@ -90,13 +100,15 @@ private fun EmptyMemesUi() {
     }
 }
 
-
 @Composable
-private fun MemItem(mem: MemModel) {
+private fun MemItem(mem: MemModel, memPosition: Int, click: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                click.invoke(memPosition)
+            },
         shape = RoundedCornerShape(16.dp)
     ) {
         Column() {
@@ -131,6 +143,17 @@ private fun MemItem(mem: MemModel) {
                     R.string.memes_created, mem.created.toDate(), mem.author
                 ),
             )
+        }
+    }
+}
+
+@Composable
+private fun ObserveSideEffect(sideEffect: MemesSideEffect?, navController: NavController) {
+    sideEffect?.let { memSideEffect ->
+        when (memSideEffect) {
+            is StartMem -> {
+                navController.navigateSafe("${Screen.MemScreen.route}/${memSideEffect.position}")
+            }
         }
     }
 }

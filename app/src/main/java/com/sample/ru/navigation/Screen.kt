@@ -7,5 +7,6 @@ sealed class Screen(val route: String) {
     object ListNewsScreen: Screen(NavRoute.LIST_NEWS_ROUTE)
     object DetailNewsScreen: Screen(NavRoute.DETAIL_NEWS_ROUTE)
     object MemesScreen: Screen(NavRoute.MEMES_ROUTE)
+    object MemScreen: Screen(NavRoute.MEM_ROUTE)
     object DetailImageScreen: Screen(NavRoute.DETAIL_IMAGE_ROUTE)
 }

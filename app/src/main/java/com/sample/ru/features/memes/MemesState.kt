@@ -6,5 +6,4 @@ sealed class MemesState
 class SuccessMemes(
     val memes: List<BaseModel>
 ) : MemesState()
-
 object EmptyMemes : MemesState()

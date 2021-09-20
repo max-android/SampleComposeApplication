@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sample.ru.features.gallery.DetailImageScreenFactory
 import com.sample.ru.features.gallery.GalleryScreenFactory
 import com.sample.ru.features.home.HomeScreenFactory
+import com.sample.ru.features.mem.MemScreenFactory
 import com.sample.ru.features.memes.MemesScreenFactory
 import com.sample.ru.features.news.DetailNewsScreenFactory
 import com.sample.ru.features.news.ListNewsScreenFactory
@@ -80,6 +81,7 @@ fun MainComponent() {
                 ListNewsScreenFactory().create(this, navController)
                 DetailNewsScreenFactory().create(this, navController)
                 MemesScreenFactory().create(this, navController)
+                MemScreenFactory().create(this, navController)
                 DetailImageScreenFactory().create(this, navController)
             }
         }

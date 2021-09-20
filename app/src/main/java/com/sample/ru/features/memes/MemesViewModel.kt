@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.ru.data.repository.MemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,14 +16,20 @@ class MemesViewModel @Inject constructor(
     private val _state = MutableStateFlow<MemesState?>(null)
     val state: StateFlow<MemesState?> = _state.asStateFlow()
 
+    private val _sideEffect = MutableSharedFlow<MemesSideEffect?>()
+    val sideEffect: SharedFlow<MemesSideEffect?> = _sideEffect.asSharedFlow()
+
     init {
         obtainEvent(ShowContentMemesEvent)
     }
 
-    private fun obtainEvent(event: MemesEvent) {
+    fun obtainEvent(event: MemesEvent) {
         when (event) {
             is ShowContentMemesEvent -> {
                 showContentAction()
+            }
+            is ClickMemEvent -> {
+                clickMemEvent(event.position)
             }
         }
     }
@@ -33,6 +37,12 @@ class MemesViewModel @Inject constructor(
     private fun showContentAction() {
         viewModelScope.launch {
             _state.emit(repository.memes())
+        }
+    }
+
+    private fun clickMemEvent(position: Int) {
+        viewModelScope.launch {
+            _sideEffect.emit(StartMem(position))
         }
     }
 
