@@ -15,5 +15,16 @@
     //Gallery
     <string name="gallery_created">Created by %1$s</string>
 
+    //Settings
+    <string name="settings_app_title">App settings</string>
+    <string name="settings_configure_access_code_title">Configure the access code</string>
+    <string name="settings_configure_access_code_description">Description</string>
+    <string name="settings_decoration">Decoration</string>
+    <string name="settings_decoration_description">Choose a design</string>
+    <string name="settings_switch_text">Switch text</string>
+    <string name="settings_text">Settings text</string>
+    <string name="settings_text_description">add text</string>
+
+
 
 </resources>

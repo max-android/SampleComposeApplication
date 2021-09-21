@@ -25,6 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.sample.ru.ui.theme.SampleComposeAppTheme
 import com.sample.ru.R
 import com.sample.ru.ui.theme.Gray
+import com.sample.ru.ui.theme.Teal200
 import timber.log.Timber
 
 @Composable
@@ -521,7 +522,7 @@ fun BaseSpacer() {
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .height(4.dp)
-            .background(Gray, RoundedCornerShape(topStartPercent = 100, topEndPercent = 100))
+            .background(Teal200, RoundedCornerShape(topStartPercent = 100, topEndPercent = 100))
     )
 }
 
@@ -548,6 +549,17 @@ fun EmptyListUi() {
                 .align(Alignment.Center)
         )
     }
+}
+
+@Composable
+fun LineElement() {
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, start = 64.dp, end = 8.dp),
+        color = Teal200,
+        thickness = 2.dp
+    )
 }
 
 @Preview
