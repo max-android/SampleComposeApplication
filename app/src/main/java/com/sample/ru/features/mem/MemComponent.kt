@@ -2,6 +2,8 @@ package com.sample.ru.features.mem
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -72,7 +74,8 @@ class MemScreenFactory : ComposeNavFactory {
 
     @Composable
     private fun MemUi(mem: MemModel) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        val scrollState = rememberScrollState()
+        Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
             Image(
                 painter = rememberImagePainter(
                     data = mem.memUrl,
@@ -84,7 +87,7 @@ class MemScreenFactory : ComposeNavFactory {
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .height(275.dp)
+                    .height(600.dp)
                     .fillMaxWidth()
                     .padding(8.dp)
             )

@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -91,6 +92,10 @@ private fun MemItem(mem: MemModel, memPosition: Int, click: (Int) -> Unit) {
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
+            .graphicsLayer {
+                shape = RoundedCornerShape(16.dp)
+                clip = true
+            }
             .clickable {
                 click.invoke(memPosition)
             },

@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -155,6 +156,10 @@ private fun ArticleElement(articleModel: ArticleModel, navigateToNews: () -> Uni
             .width(184.dp)
             .wrapContentHeight()
             .padding(8.dp)
+            .graphicsLayer {
+                shape = RoundedCornerShape(24.dp)
+                clip = true
+            }
     ) {
         Box(
             modifier = Modifier
@@ -224,6 +229,10 @@ private fun MemElement(memModel: MemModel, navigateToMemes: () -> Unit) {
             .width(184.dp)
             .wrapContentHeight()
             .padding(8.dp)
+            .graphicsLayer {
+                shape = RoundedCornerShape(24.dp)
+                clip = true
+            }
     ) {
         Box(
             modifier = Modifier.wrapContentSize()
@@ -271,7 +280,12 @@ private fun ListFoods(foods: List<FoodModel>) {
 @Composable
 private fun FoodElement(foodModel: FoodModel) {
     Box(
-        modifier = Modifier.size(176.dp)
+        modifier = Modifier
+            .size(176.dp)
+            .graphicsLayer {
+                shape = RoundedCornerShape(24.dp)
+                clip = true
+            }
     ) {
         Image(
             painter = rememberImagePainter(
