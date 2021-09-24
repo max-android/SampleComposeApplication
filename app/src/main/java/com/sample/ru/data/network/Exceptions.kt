@@ -46,3 +46,4 @@ class SharedException(message: String = "Can't share compatibility zodiac sign e
  * Прочее
  */
 class UnprocessableException(message: String = "The given data was invalid.") : Exception(message)
+class ProfileException(message: String = "The profile was invalid.") : Exception(message)

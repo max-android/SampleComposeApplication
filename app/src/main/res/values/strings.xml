@@ -24,7 +24,7 @@
     <string name="settings_switch_text">Switch text</string>
     <string name="settings_text">Settings text</string>
     <string name="settings_text_description">add text</string>
-
-
+    <string name="settings_enter_name">Enter name</string>
+    <string name="settings_email_format_is_invalid">Email format is invalid.</string>
 
 </resources>

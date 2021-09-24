@@ -18,7 +18,7 @@ fun typography() = Typography(
         fontFamily = Font(R.font.montserrat_bold).toFontFamily(),
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp
-       ),
+    ),
     h2 = TextStyle(
         color = MaterialTheme.colors.onPrimary,
         fontFamily = Font(R.font.montserrat_bold).toFontFamily(),
@@ -63,6 +63,12 @@ fun typography() = Typography(
     ),
     overline = TextStyle(
         color = MaterialTheme.colors.onPrimary,
+        fontFamily = Font(R.font.montserrat_regular).toFontFamily(),
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+    h6 = TextStyle(
+        color = MaterialTheme.colors.error,
         fontFamily = Font(R.font.montserrat_regular).toFontFamily(),
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp

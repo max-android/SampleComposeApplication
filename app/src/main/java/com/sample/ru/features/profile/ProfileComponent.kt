@@ -3,10 +3,9 @@ package com.sample.ru.features.profile
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,7 +21,11 @@ import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.R
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.sample.ru.data.model.ProfileModel
 import com.sample.ru.features.base.LineElement
+import com.sample.ru.util.EMPTY_VALUE
 
 class ProfileScreenFactory : ComposeNavFactory {
 
@@ -36,6 +39,39 @@ class ProfileScreenFactory : ComposeNavFactory {
 
 @Composable
 fun ProfileComponent() {
+    val viewModel = hiltViewModel<ProfileViewModel>()
+    val state: ProfileState? by viewModel.state.collectAsState()
+    ObserveState(state,
+        onCheckedChangeSwitch = {
+            viewModel.obtainEvent(ChangeSwitch(it))
+        },
+        onUserNameChange = {
+            viewModel.obtainEvent(EditProfileName(it))
+        }
+    )
+}
+
+@Composable
+private fun ObserveState(
+    state: ProfileState?,
+    onCheckedChangeSwitch: (Boolean) -> Unit,
+    onUserNameChange: (String) -> Unit
+) {
+    state?.let { profileState ->
+        when (profileState) {
+            is SuccessProfile -> {
+                ProfileUi(profileState.profileModel, onCheckedChangeSwitch, onUserNameChange)
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileUi(
+    profile: ProfileModel,
+    onCheckedChangeSwitch: (Boolean) -> Unit,
+    onUserNameChange: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -46,14 +82,48 @@ fun ProfileComponent() {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp),
+                .padding(16.dp),
             style = MaterialTheme.typography.h2,
             text = stringResource(id = R.string.settings_app_title),
         )
+        EditNameElement(profile, onUserNameChange)
         ConfigureElement()
         DecorationElement()
-        SettingSwitchElement()
+        SettingSwitchElement(profile, onCheckedChangeSwitch)
         SettingElement()
+    }
+}
+
+@Composable
+fun EditNameElement(profile: ProfileModel, onValueChange: (String) -> Unit) {
+    var text by remember { mutableStateOf(profile.userName) }
+    var isError by remember { mutableStateOf(false) }
+    fun validate(text: String) {
+        isError = text.count() < COUNT_SYMBOL
+    }
+    Column() {
+        TextField(
+            value = text,
+            onValueChange = { userName ->
+                text = userName
+                isError = false
+                if (userName.length >= COUNT_SYMBOL) {
+                    onValueChange.invoke(userName)
+                }
+            },
+            label = { Text(stringResource(id = R.string.settings_enter_name)) },
+            keyboardActions = KeyboardActions { validate(text) },
+            singleLine = true,
+            textStyle = MaterialTheme.typography.body2,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier.padding(start = 8.dp, top = 8.dp)
+        )
+        Text(
+            text =
+            if (isError) stringResource(id = R.string.settings_email_format_is_invalid) else EMPTY_VALUE,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier.padding(start = 12.dp)
+        )
     }
 }
 
@@ -132,7 +202,7 @@ fun DecorationElement() {
 }
 
 @Composable
-fun SettingSwitchElement() {
+fun SettingSwitchElement(profile: ProfileModel, onCheckedChangeSwitch: (Boolean) -> Unit) {
     Box(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -154,7 +224,7 @@ fun SettingSwitchElement() {
             )
         }
 
-        var checkedState by remember { mutableStateOf(true) }
+        var checkedState by remember { mutableStateOf(profile.isEnabledSwitch) }
         Switch(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -162,6 +232,7 @@ fun SettingSwitchElement() {
             checked = checkedState,
             onCheckedChange = {
                 checkedState = it
+                onCheckedChangeSwitch.invoke(it)
             }
         )
 
@@ -174,7 +245,7 @@ fun SettingElement() {
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .padding(top = 56.dp),
+            .padding(top = 56.dp, bottom = 68.dp),
         shape = RoundedCornerShape(16.dp)
     ) {
         Column() {
@@ -244,7 +315,4 @@ fun SettingElement() {
     }
 }
 
-
-
-
-
+private const val COUNT_SYMBOL = 3
