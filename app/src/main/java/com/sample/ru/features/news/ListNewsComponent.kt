@@ -92,14 +92,11 @@ private fun ArticleItem(article: ArticleModel, articlePosition: Int, click: (Int
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .graphicsLayer {
-                shape = RoundedCornerShape(16.dp)
-                clip = true
-            }
             .clickable {
                 click.invoke(articlePosition)
             },
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = 4.dp
     ) {
         Column() {
             Image(
@@ -122,13 +119,13 @@ private fun ArticleItem(article: ArticleModel, articlePosition: Int, click: (Int
                     .fillMaxWidth()
                     .padding(8.dp),
                 style = MaterialTheme.typography.body1,
-                color = Color.Black,
+                color = MaterialTheme.colors.onPrimary,
                 text = article.title,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.caption,
-                color = Purple700,
+                color = MaterialTheme.colors.onPrimary,
                 text = composeContext().getString(
                     R.string.new_created, article.publishedAt.toDate(), article.newsSite
                 ),

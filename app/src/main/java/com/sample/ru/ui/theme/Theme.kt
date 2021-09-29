@@ -7,7 +7,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 val lightThemeColors = lightColors(
-    primary = Purple500,
+    primary = White,
     primaryVariant = Purple700,
     secondary = Teal200,
     secondaryVariant = SecondaryVariant,
@@ -15,7 +15,7 @@ val lightThemeColors = lightColors(
     surface = White,
     error = LightError,
     onPrimary = Black,
-    onSecondary = White,
+    onSecondary = Black,
     onBackground = Black,
     onSurface = Black,
     onError = LightError
@@ -25,6 +25,7 @@ val darkThemeColors = darkColors(
     primary = Black,
     primaryVariant = Purple700,
     secondary = Teal200,
+    secondaryVariant = Gray,
     background = Black,
     surface = Black,
     error = DarkError,

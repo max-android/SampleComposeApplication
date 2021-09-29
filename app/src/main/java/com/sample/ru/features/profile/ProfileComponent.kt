@@ -21,33 +21,36 @@ import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.R
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sample.ru.data.model.ProfileModel
 import com.sample.ru.features.base.LineElement
 import com.sample.ru.util.EMPTY_VALUE
 
-class ProfileScreenFactory : ComposeNavFactory {
+class ProfileScreenFactory(private val onDarkModeChanged: (Boolean) -> Unit) : ComposeNavFactory {
 
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screen.ProfileScreen.route) {
-            ProfileComponent()
+            ProfileComponent(onDarkModeChanged)
         }
     }
 
 }
 
 @Composable
-fun ProfileComponent() {
+fun ProfileComponent(onDarkModeChanged: (Boolean) -> Unit) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state: ProfileState? by viewModel.state.collectAsState()
-    ObserveState(state,
+    ObserveState(
+        state,
         onCheckedChangeSwitch = {
             viewModel.obtainEvent(ChangeSwitch(it))
         },
         onUserNameChange = {
             viewModel.obtainEvent(EditProfileName(it))
-        }
+        },
+        onDarkModeChanged = onDarkModeChanged
     )
 }
 
@@ -55,12 +58,18 @@ fun ProfileComponent() {
 private fun ObserveState(
     state: ProfileState?,
     onCheckedChangeSwitch: (Boolean) -> Unit,
-    onUserNameChange: (String) -> Unit
+    onUserNameChange: (String) -> Unit,
+    onDarkModeChanged: (Boolean) -> Unit
 ) {
     state?.let { profileState ->
         when (profileState) {
             is SuccessProfile -> {
-                ProfileUi(profileState.profileModel, onCheckedChangeSwitch, onUserNameChange)
+                ProfileUi(
+                    profileState.profileModel,
+                    onCheckedChangeSwitch,
+                    onUserNameChange,
+                    onDarkModeChanged
+                )
             }
         }
     }
@@ -70,7 +79,8 @@ private fun ObserveState(
 fun ProfileUi(
     profile: ProfileModel,
     onCheckedChangeSwitch: (Boolean) -> Unit,
-    onUserNameChange: (String) -> Unit
+    onUserNameChange: (String) -> Unit,
+    onDarkModeChanged: (Boolean) -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -83,13 +93,14 @@ fun ProfileUi(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
+            color = MaterialTheme.colors.onPrimary,
             style = MaterialTheme.typography.h2,
             text = stringResource(id = R.string.settings_app_title),
         )
         EditNameElement(profile, onUserNameChange)
         ConfigureElement()
         DecorationElement()
-        SettingSwitchElement(profile, onCheckedChangeSwitch)
+        SettingSwitchElement(profile, onCheckedChangeSwitch, onDarkModeChanged)
         SettingElement()
     }
 }
@@ -111,17 +122,25 @@ fun EditNameElement(profile: ProfileModel, onValueChange: (String) -> Unit) {
                     onValueChange.invoke(userName)
                 }
             },
-            label = { Text(stringResource(id = R.string.settings_enter_name)) },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.settings_enter_name),
+                    color = MaterialTheme.colors.onPrimary
+                )
+            },
             keyboardActions = KeyboardActions { validate(text) },
             singleLine = true,
-            textStyle = MaterialTheme.typography.body2,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier.padding(start = 8.dp, top = 8.dp)
+            modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = MaterialTheme.colors.secondary
+            )
         )
         Text(
             text =
             if (isError) stringResource(id = R.string.settings_email_format_is_invalid) else EMPTY_VALUE,
             style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(start = 12.dp)
         )
     }
@@ -134,7 +153,8 @@ fun ConfigureElement() {
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(top = 16.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = 4.dp
     ) {
         Row() {
             Image(
@@ -142,7 +162,8 @@ fun ConfigureElement() {
                 contentDescription = null,
                 modifier = Modifier
                     .size(56.dp)
-                    .padding(start = 12.dp, top = 8.dp)
+                    .padding(start = 12.dp, top = 8.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
             )
             Column() {
                 Text(
@@ -150,6 +171,7 @@ fun ConfigureElement() {
                         .fillMaxWidth()
                         .padding(start = 8.dp, top = 16.dp, end = 8.dp),
                     style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.onPrimary,
                     text = stringResource(id = R.string.settings_configure_access_code_title),
                 )
                 Text(
@@ -157,6 +179,7 @@ fun ConfigureElement() {
                         .fillMaxWidth()
                         .padding(start = 8.dp, top = 8.dp, bottom = 16.dp),
                     style = MaterialTheme.typography.subtitle2,
+                    color = MaterialTheme.colors.onPrimary,
                     text = stringResource(id = R.string.settings_configure_access_code_description),
                 )
             }
@@ -171,7 +194,8 @@ fun DecorationElement() {
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(top = 24.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = 4.dp
     ) {
         Row() {
             Image(
@@ -179,7 +203,8 @@ fun DecorationElement() {
                 contentDescription = null,
                 modifier = Modifier
                     .size(56.dp)
-                    .padding(start = 12.dp, top = 8.dp)
+                    .padding(start = 12.dp, top = 8.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
             )
             Column() {
                 Text(
@@ -202,7 +227,11 @@ fun DecorationElement() {
 }
 
 @Composable
-fun SettingSwitchElement(profile: ProfileModel, onCheckedChangeSwitch: (Boolean) -> Unit) {
+fun SettingSwitchElement(
+    profile: ProfileModel,
+    onCheckedChangeSwitch: (Boolean) -> Unit,
+    onDarkModeChanged: (Boolean) -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -224,7 +253,7 @@ fun SettingSwitchElement(profile: ProfileModel, onCheckedChangeSwitch: (Boolean)
             )
         }
 
-        var checkedState by remember { mutableStateOf(profile.isEnabledSwitch) }
+        var checkedState by remember { mutableStateOf(profile.isDarkThemeEnabled) }
         Switch(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -233,9 +262,15 @@ fun SettingSwitchElement(profile: ProfileModel, onCheckedChangeSwitch: (Boolean)
             onCheckedChange = {
                 checkedState = it
                 onCheckedChangeSwitch.invoke(it)
-            }
+                onDarkModeChanged.invoke(it)
+            },
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = MaterialTheme.colors.secondary,
+                checkedTrackColor = MaterialTheme.colors.secondary,
+                uncheckedThumbColor = MaterialTheme.colors.secondaryVariant,
+                uncheckedTrackColor = MaterialTheme.colors.secondaryVariant,
+            )
         )
-
     }
 }
 
@@ -246,7 +281,8 @@ fun SettingElement() {
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(top = 56.dp, bottom = 68.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = 4.dp
     ) {
         Column() {
             Text(
@@ -262,7 +298,8 @@ fun SettingElement() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(56.dp)
-                        .padding(start = 12.dp, top = 8.dp)
+                        .padding(start = 12.dp, top = 8.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
                 )
                 Text(
                     modifier = Modifier
@@ -279,7 +316,8 @@ fun SettingElement() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(56.dp)
-                        .padding(start = 12.dp, top = 8.dp)
+                        .padding(start = 12.dp, top = 8.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
                 )
                 Text(
                     modifier = Modifier
@@ -296,7 +334,8 @@ fun SettingElement() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(56.dp)
-                        .padding(start = 12.dp, top = 8.dp)
+                        .padding(start = 12.dp, top = 8.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
                 )
                 Text(
                     modifier = Modifier

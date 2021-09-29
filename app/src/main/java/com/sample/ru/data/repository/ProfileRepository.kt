@@ -5,14 +5,14 @@ import com.sample.ru.data.model.ProfileModel
 import com.sample.ru.features.profile.ProfileState
 import com.sample.ru.features.profile.SuccessProfile
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.flow.combine
 
 class ProfileRepository(private val profileSettings: ProfileSettings) {
 
-    suspend fun loadProfile(): Flow<ProfileState> {
-       return profileSettings.enabledSwitch.zip(profileSettings.userName)
-        { enabledSwitch: Boolean, userName: String ->
-            SuccessProfile(ProfileModel(userName, enabledSwitch))
+    fun loadProfile(): Flow<ProfileState> {
+        return combine(profileSettings.themeSwitch, profileSettings.userName)
+        { themeSwitch: Boolean, userName: String ->
+            SuccessProfile(ProfileModel(userName, themeSwitch))
         }
     }
 

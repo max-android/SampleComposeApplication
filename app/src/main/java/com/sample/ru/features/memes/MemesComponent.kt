@@ -13,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -29,7 +27,6 @@ import com.sample.ru.features.base.EmptyListUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.navigation.navigateSafe
-import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
 
@@ -89,17 +86,14 @@ private fun MemesUi(listMemes: List<BaseModel>, navigateToMem: (Int) -> Unit) {
 @Composable
 private fun MemItem(mem: MemModel, memPosition: Int, click: (Int) -> Unit) {
     Card(
+        elevation = 4.dp,
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .graphicsLayer {
-                shape = RoundedCornerShape(16.dp)
-                clip = true
-            }
             .clickable {
                 click.invoke(memPosition)
             },
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Column() {
             Image(
@@ -122,13 +116,13 @@ private fun MemItem(mem: MemModel, memPosition: Int, click: (Int) -> Unit) {
                     .fillMaxWidth()
                     .padding(8.dp),
                 style = MaterialTheme.typography.body1,
-                color = Color.Black,
+                color = MaterialTheme.colors.onPrimary,
                 text = mem.title,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.caption,
-                color = Purple700,
+                color = MaterialTheme.colors.onPrimary,
                 text = composeContext().getString(
                     R.string.memes_created, mem.created.toDate(), mem.author
                 ),

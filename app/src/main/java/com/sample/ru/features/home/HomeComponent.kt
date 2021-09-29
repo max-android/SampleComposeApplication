@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -194,6 +195,7 @@ private fun ArticleElement(articleModel: ArticleModel, navigateToNews: () -> Uni
         Text(
             text = articleModel.newsSite,
             style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
@@ -201,9 +203,10 @@ private fun ArticleElement(articleModel: ArticleModel, navigateToNews: () -> Uni
         Text(
             text = articleModel.publishedAt.toDate(),
             style = MaterialTheme.typography.overline,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp)
+                .padding(start = 8.dp, bottom = 8.dp)
         )
     }
 }
@@ -256,6 +259,7 @@ private fun MemElement(memModel: MemModel, navigateToMemes: () -> Unit) {
         Text(
             text = memModel.author,
             style = MaterialTheme.typography.subtitle2,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 8.dp, top = 8.dp, end = 4.dp)
@@ -308,6 +312,7 @@ private fun FoodElement(foodModel: FoodModel) {
                 .align(Alignment.BottomStart)
                 .padding(16.dp),
             style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.onPrimary,
             text = foodModel.foodName,
         )
     }
@@ -337,7 +342,8 @@ private fun ThematicElement(thematicTitle: String) {
         Text(
             text = thematicTitle,
             modifier = Modifier.padding(4.dp),
-            style = MaterialTheme.typography.button
+            style = MaterialTheme.typography.button,
+            color = MaterialTheme.colors.onPrimary,
         )
     }
 }
@@ -367,11 +373,13 @@ private fun OfferElement() {
                 .size(100.dp)
                 .constrainAs(logo) {
                     top.linkTo(parent.top)
-                }
+                },
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
         )
         Text(
             text = "Espresso",
             fontSize = 24.sp,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.constrainAs(title) {
                 top.linkTo(parent.top)
                 linkTo(start = logo.end, end = parent.end, startMargin = 8.dp, endMargin = 8.dp)
@@ -381,6 +389,7 @@ private fun OfferElement() {
         Text(
             text = "Espresso is coffee of Italian origin, brewed by forcing a small amount of nearly boiling water under pressure (expressing) through finely-ground coffee beans.",
             style = TextStyle(textAlign = TextAlign.Justify),
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.constrainAs(description) {
                 top.linkTo(title.bottom)
                 linkTo(start = title.start, end = image.start, endMargin = 24.dp)

@@ -1,10 +1,12 @@
 package com.sample.ru.features.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,10 +23,9 @@ import com.sample.ru.features.article.ArticleScreenFactory
 import com.sample.ru.features.detailPhoto.DetailPhotoScreenFactory
 import com.sample.ru.features.profile.ProfileScreenFactory
 import com.sample.ru.navigation.*
-import com.sample.ru.ui.theme.Purple700
 
 @Composable
-fun MainComponent() {
+fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -37,6 +38,7 @@ fun MainComponent() {
                 BottomNavigation {
                     bottomNavItems.forEachIndexed { index, tabBarItem ->
                         BottomNavigationItem(
+                            modifier = Modifier.background(color = MaterialTheme.colors.secondaryVariant),
                             icon = {
                                 Icon(
                                     painter = painterResource(id = tabBarItem.drawableResId),
@@ -44,11 +46,17 @@ fun MainComponent() {
                                     modifier = Modifier.size(22.dp)
                                 )
                             },
-                            label = { Text(stringResource(tabBarItem.titleResId)) },
+                            label = {
+                                Text(
+                                    stringResource(tabBarItem.titleResId),
+                                    color = MaterialTheme.colors.onPrimary
+                                )
+                            },
                             selected = currentDestination?.hierarchy?.any { destination ->
                                 destination.updateSelectedTab(index, tabBarItem)
                             } == true,
-                            unselectedContentColor = Purple700.copy(alpha = 0.5f),
+                            selectedContentColor = Color.White,
+                            unselectedContentColor = MaterialTheme.colors.primaryVariant,
                             onClick = {
                                 navController.navigateSafeWithBuilder(tabBarItem.screen.route) {
 //                                        // Pop up to the start destination of the graph to
@@ -76,7 +84,7 @@ fun MainComponent() {
             NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
                 HomeScreenFactory().create(this, navController)
                 GalleryScreenFactory().create(this, navController)
-                ProfileScreenFactory().create(this, navController)
+                ProfileScreenFactory(onDarkModeChanged).create(this, navController)
                 ListNewsScreenFactory().create(this, navController)
                 ArticleScreenFactory().create(this, navController)
                 MemesScreenFactory().create(this, navController)

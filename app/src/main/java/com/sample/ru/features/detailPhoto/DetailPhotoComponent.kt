@@ -84,7 +84,8 @@ private fun PhotoDetailUi(photo: PhotoModel) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(8.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = 4.dp
     ) {
         Column(modifier = Modifier
             .verticalScroll(scrollState)
@@ -109,7 +110,7 @@ private fun PhotoDetailUi(photo: PhotoModel) {
                     .fillMaxWidth()
                     .padding(8.dp),
                 style = MaterialTheme.typography.body1,
-                color = Color.Black,
+                color = MaterialTheme.colors.onPrimary,
                 text = composeContext().getString(R.string.gallery_created, photo.author),
             )
             Text(
@@ -119,7 +120,7 @@ private fun PhotoDetailUi(photo: PhotoModel) {
 
                     },
                 style = MaterialTheme.typography.caption,
-                color = Purple700,
+                color = MaterialTheme.colors.onPrimary,
                 text = photo.url,
             )
         }

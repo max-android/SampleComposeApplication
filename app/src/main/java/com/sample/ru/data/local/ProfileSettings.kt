@@ -14,20 +14,20 @@ class ProfileSettings(private val context: Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
         name = PROFILE_STORE
     )
-    private val SHOW_ENABLED = booleanPreferencesKey("enabled_switch")
+    private val DARK_ENABLED = booleanPreferencesKey("enabled_dark")
     private val USER_NAME = stringPreferencesKey("user_name")
 
-    val enabledSwitch: Flow<Boolean> = context.dataStore.data
+    val themeSwitch: Flow<Boolean> = context.dataStore.data
         .catch {
             emit(emptyPreferences())
         }
         .map { preferences ->
-            preferences[SHOW_ENABLED] ?: false
+            preferences[DARK_ENABLED] ?: false
         }
 
     suspend fun setEnabledSwitch(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[SHOW_ENABLED] = enabled
+            preferences[DARK_ENABLED] = enabled
         }
     }
 

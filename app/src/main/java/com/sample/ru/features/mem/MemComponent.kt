@@ -96,13 +96,13 @@ class MemScreenFactory : ComposeNavFactory {
                     .fillMaxWidth()
                     .padding(8.dp),
                 style = MaterialTheme.typography.body1,
-                color = Color.Black,
+                color = MaterialTheme.colors.onPrimary,
                 text = mem.title,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.caption,
-                color = Purple700,
+                color = MaterialTheme.colors.onPrimary,
                 text = composeContext().getString(
                     R.string.memes_created, mem.created.toDate(), mem.author
                 ),

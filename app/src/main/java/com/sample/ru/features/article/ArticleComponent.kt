@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
@@ -27,7 +26,6 @@ import com.sample.ru.features.base.EmptyDetailItemUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.KEY_ARTICLE_ID
 import com.sample.ru.navigation.Screen
-import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.DEFAULT_POSITION
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
@@ -95,22 +93,22 @@ class ArticleScreenFactory : ComposeNavFactory {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
+                color = MaterialTheme.colors.onPrimary,
                 style = MaterialTheme.typography.body1,
-                color = Color.Black,
                 text = article.title,
             )
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
+                color = MaterialTheme.colors.onPrimary,
                 style = MaterialTheme.typography.body2,
-                color = Color.Black,
                 text = article.summary,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.caption,
-                color = Purple700,
+                color = MaterialTheme.colors.onPrimary,
                 text = composeContext().getString(
                     R.string.new_created, article.publishedAt.toDate(), article.newsSite
                 ),
