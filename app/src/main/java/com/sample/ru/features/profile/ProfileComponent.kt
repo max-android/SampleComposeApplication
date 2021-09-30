@@ -21,7 +21,9 @@ import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.R
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sample.ru.data.model.ProfileModel
@@ -38,16 +40,19 @@ class ProfileScreenFactory(private val onDarkModeChanged: (Boolean) -> Unit) : C
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileComponent(onDarkModeChanged: (Boolean) -> Unit) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state: ProfileState? by viewModel.state.collectAsState()
+    val keyboardController = LocalSoftwareKeyboardController.current
     ObserveState(
         state,
         onCheckedChangeSwitch = {
             viewModel.obtainEvent(ChangeSwitch(it))
         },
         onUserNameChange = {
+            //keyboardController?.hide()
             viewModel.obtainEvent(EditProfileName(it))
         },
         onDarkModeChanged = onDarkModeChanged

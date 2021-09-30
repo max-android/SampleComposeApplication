@@ -85,7 +85,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.material:material-ripple:$compose_version"
-    implementation "com.google.android.material:compose-theme-adapter:$compose_version"
+    implementation "com.google.android.material:compose-theme-adapter:1.0.2"
 
     // Compose Animation
     implementation "androidx.compose.animation:animation-core:$compose_version"

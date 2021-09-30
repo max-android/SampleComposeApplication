@@ -490,6 +490,36 @@ fun TextButtonComponent() {
 }
 
 @Composable
+fun DisableButton(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colors.secondaryVariant,
+    onClick: () -> Unit,
+    text: String? = null,
+    enabled: Boolean = false,
+    content: @Composable RowScope.() -> Unit = {}
+) {
+    Button(
+        modifier = modifier.height(48.dp),
+        onClick = onClick,
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor,
+            disabledBackgroundColor = backgroundColor.copy(
+                alpha = 0.3f
+            )
+        )
+    ) {
+        text?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.button,
+                color = Color.White
+            )
+        } ?: content.invoke(this)
+    }
+}
+
+@Composable
 fun LoadProgress() {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -531,6 +561,9 @@ fun BaseSpacer() {
 @Composable
 fun CheckList1Preview() {
     SampleComposeAppTheme() {
+        DisableButton(
+            text = "press button", onClick = {}
+        )
         //ArrowSample2()
         // LoadProgress(true)
     }
@@ -557,7 +590,9 @@ fun LineElement() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp, start = 64.dp, end = 8.dp),
-        color = Teal200,
+        color = MaterialTheme.colors.secondary.copy(
+            alpha = 0.3f
+        ),
         thickness = 2.dp
     )
 }

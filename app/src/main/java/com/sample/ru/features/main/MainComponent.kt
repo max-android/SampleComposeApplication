@@ -29,11 +29,11 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     //val viewModel = hiltViewModel<MainViewModel>()
 
     Scaffold(
         bottomBar = {
-            val currentDestination = navBackStackEntry?.destination
             if (isNeedShowBottomBar(navBackStackEntry)) {
                 BottomNavigation {
                     bottomNavItems.forEachIndexed { index, tabBarItem ->
@@ -65,6 +65,7 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
 //                                        popUpTo(navController.graph.findStartDestination().id) {
 //                                            saveState = true
 //                                        }
+                                    //popUpTo(navController.graph.findStartDestination().id)
                                     popUpTo(Screen.HomeScreen.route) {
                                         saveState = true
                                     }
