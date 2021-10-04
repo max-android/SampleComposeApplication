@@ -9,7 +9,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -556,14 +558,24 @@ fun BaseSpacer() {
     )
 }
 
+@Composable
+fun ExampleBox(shape: Shape) {
+    Column(modifier = Modifier.fillMaxWidth().wrapContentSize(Alignment.Center)) {
+        Box(
+            modifier = Modifier.size(100.dp).clip(shape).background(Color.Red)
+        )
+    }
+}
 
 @Preview
 @Composable
 fun CheckList1Preview() {
     SampleComposeAppTheme() {
-        DisableButton(
-            text = "press button", onClick = {}
-        )
+//        DisableButton(
+//            text = "press button", onClick = {}
+//        )
+        ExampleBox(shape = RoundedCornerShape(10.dp))
+        // ExampleBox(shape = CircleShape)
         //ArrowSample2()
         // LoadProgress(true)
     }
