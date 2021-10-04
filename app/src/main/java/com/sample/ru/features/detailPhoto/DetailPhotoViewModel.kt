@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.ru.data.repository.GalleryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,12 +15,18 @@ class DetailPhotoViewModel @Inject constructor(
 
     private val _state = MutableStateFlow<DetailPhotoState?>(null)
     val state: StateFlow<DetailPhotoState?> = _state.asStateFlow()
+
+    private val _sideEffect = MutableSharedFlow<DetailPhotoSideEffect?>()
+    val sideEffect: SharedFlow<DetailPhotoSideEffect?> = _sideEffect.asSharedFlow()
     var isShowContent = false
 
     fun obtainEvent(event: DetailPhotoEvent) {
         when (event) {
             is ShowContentDetailPhotoEvent -> {
                 showContentAction(event.position)
+            }
+            is ClickDetailPhotoEvent -> {
+                clickDetailPhotoAction(event.photoUrl)
             }
         }
     }
@@ -31,6 +35,12 @@ class DetailPhotoViewModel @Inject constructor(
         isShowContent = true
         viewModelScope.launch {
             _state.emit(repository.photo(item))
+        }
+    }
+
+    private fun clickDetailPhotoAction(photoUrl: String) {
+        viewModelScope.launch {
+            _sideEffect.emit(ShowZoomPhoto(photoUrl))
         }
     }
 

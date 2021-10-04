@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
@@ -30,9 +29,10 @@ import com.sample.ru.features.base.EmptyDetailItemUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.KEY_PHOTO_ID
 import com.sample.ru.navigation.Screen
-import com.sample.ru.ui.theme.Purple700
+import com.sample.ru.navigation.navigateSafe
 import com.sample.ru.util.DEFAULT_POSITION
 import com.sample.ru.util.composeContext
+import com.sample.ru.util.toEncodedUrl
 
 class DetailPhotoScreenFactory : ComposeNavFactory {
 
@@ -44,30 +44,36 @@ class DetailPhotoScreenFactory : ComposeNavFactory {
                     type = NavType.IntType
                 }
             )
-        ) {
-            DetailImageComponent(it)
+        ) { navBackStackEntry ->
+            DetailImageComponent(navBackStackEntry, navController)
         }
     }
 
 }
 
 @Composable
-private fun DetailImageComponent(backStackEntry: NavBackStackEntry) {
+private fun DetailImageComponent(backStackEntry: NavBackStackEntry, navController: NavController) {
     val viewModel = hiltViewModel<DetailPhotoViewModel>()
     val position = backStackEntry.arguments?.getInt(KEY_PHOTO_ID) ?: DEFAULT_POSITION
     if (!viewModel.isShowContent) {
         viewModel.obtainEvent(ShowContentDetailPhotoEvent(position))
     }
     val state: DetailPhotoState? by viewModel.state.collectAsState()
-    ObserveState(state)
+    val sideEffect: DetailPhotoSideEffect? by viewModel.sideEffect.collectAsState(null)
+    ObserveState(
+        state,
+        navigateToZoomPhoto = { photoUrl ->
+            viewModel.obtainEvent(ClickDetailPhotoEvent(photoUrl))
+        })
+    ObserveSideEffect(sideEffect, navController)
 }
 
 @Composable
-private fun ObserveState(state: DetailPhotoState?) {
+private fun ObserveState(state: DetailPhotoState?, navigateToZoomPhoto: (String) -> Unit) {
     state?.let { photoState ->
         when (photoState) {
             is SuccessDetailPhoto -> {
-                PhotoDetailUi(photoState.photo)
+                PhotoDetailUi(photoState.photo, navigateToZoomPhoto)
             }
             is EmptyDetailPhoto -> {
                 EmptyDetailItemUi()
@@ -77,7 +83,7 @@ private fun ObserveState(state: DetailPhotoState?) {
 }
 
 @Composable
-private fun PhotoDetailUi(photo: PhotoModel) {
+private fun PhotoDetailUi(photo: PhotoModel, photoClick: (String) -> Unit) {
     val scrollState = rememberScrollState()
     Card(
         modifier = Modifier
@@ -87,9 +93,11 @@ private fun PhotoDetailUi(photo: PhotoModel) {
         shape = RoundedCornerShape(16.dp),
         elevation = 4.dp
     ) {
-        Column(modifier = Modifier
-            .verticalScroll(scrollState)
-            .padding(8.dp)) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(8.dp)
+        ) {
             Image(
                 painter = rememberImagePainter(
                     data = photo.downloadUrl,
@@ -104,6 +112,9 @@ private fun PhotoDetailUi(photo: PhotoModel) {
                     .height(600.dp)
                     .fillMaxWidth()
                     .padding(8.dp)
+                    .clickable {
+                        photoClick.invoke(photo.downloadUrl)
+                    }
             )
             Text(
                 modifier = Modifier
@@ -123,6 +134,19 @@ private fun PhotoDetailUi(photo: PhotoModel) {
                 color = MaterialTheme.colors.onPrimary,
                 text = photo.url,
             )
+        }
+    }
+}
+
+@Composable
+private fun ObserveSideEffect(sideEffect: DetailPhotoSideEffect?, navController: NavController) {
+    sideEffect?.let { photoSideEffect ->
+        when (photoSideEffect) {
+            is ShowZoomPhoto -> {
+                navController.navigateSafe(
+                    "${Screen.ZoomImageScreen.route}/${photoSideEffect.photoUrl.toEncodedUrl()}"
+                )
+            }
         }
     }
 }

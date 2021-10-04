@@ -9,4 +9,5 @@ sealed class Screen(val route: String) {
     object MemesScreen: Screen(NavRoute.MEMES_ROUTE)
     object MemScreen: Screen(NavRoute.MEM_ROUTE)
     object DetailImageScreen: Screen(NavRoute.DETAIL_IMAGE_ROUTE)
+    object ZoomImageScreen: Screen(NavRoute.ZOOM_IMAGE_ROUTE)
 }
