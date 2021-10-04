@@ -21,6 +21,7 @@ android {
         buildConfigField 'String', 'NEWS_BASE_URL', '\"https://api.spaceflightnewsapi.net/v3/\"'
         buildConfigField 'String', 'MEMES_BASE_URL', '\"https://api.doge-meme.lol/v1/\"'
         buildConfigField 'String', 'PHOTO_BASE_URL', '\"https://picsum.photos/\"'
+        buildConfigField 'String', 'FOOD_DASHBOARD_BASE_URL', '\"https://gist.githubusercontent.com/vipulasri/8bd2115e50fd73272ea8de08cd54b9d5/raw/\"'
     }
 
     buildTypes {

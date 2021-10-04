@@ -74,6 +74,23 @@ object AppModule {
         PhotoRestService::class.java
     )
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class FoodDashboardRemoteApi
+
+    @FoodDashboardRemoteApi
+    @Provides
+    @Singleton
+    fun provideFoodDashboardRestService(
+        gsonConverterFactory: GsonConverterFactory,
+        okHttpClient: OkHttpClient
+    ): FoodDashboardRestService = createRestService(
+        gsonConverterFactory,
+        okHttpClient,
+        BuildConfig.FOOD_DASHBOARD_BASE_URL,
+        FoodDashboardRestService::class.java
+    )
+
     @Provides
     @Singleton
     fun provideFoodService(): FoodService = FoodService()
