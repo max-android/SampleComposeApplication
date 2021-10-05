@@ -14,6 +14,7 @@
 
     //Gallery
     <string name="gallery_created">Created by %1$s</string>
+    <string name="gallery_show_slider">show slider</string>
 
     //Settings
     <string name="settings_app_title">App settings</string>

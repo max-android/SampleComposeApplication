@@ -7,12 +7,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -44,16 +53,22 @@ fun GalleryComponent(navController: NavController) {
         state,
         navigateToPhoto = { position ->
             viewModel.obtainEvent(ClickItemGalleryEvent(position))
-        })
+        },
+        navigateToSlider = {
+
+        }
+    )
     ObserveSideEffect(sideEffect, navController)
 }
 
 @Composable
-private fun ObserveState(state: GalleryState?, navigateToPhoto: (Int) -> Unit) {
+private fun ObserveState(
+    state: GalleryState?, navigateToPhoto: (Int) -> Unit, navigateToSlider: () -> Unit
+) {
     state?.let { galleryState ->
         when (galleryState) {
             is SuccessGallery -> {
-                GalleryUi(galleryState.photos, navigateToPhoto)
+                GalleryUi(galleryState.photos, navigateToPhoto, navigateToSlider)
             }
             is EmptyGallery -> {
                 EmptyListUi()
@@ -64,17 +79,57 @@ private fun ObserveState(state: GalleryState?, navigateToPhoto: (Int) -> Unit) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun GalleryUi(listPhotos: List<BaseModel>, navigateToPhoto: (Int) -> Unit) {
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(3),
-        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 68.dp)
-    ) {
-        itemsIndexed(listPhotos) { index, item ->
-            if (item is PhotoModel) {
-                PhotoItem(item, index, navigateToPhoto)
+private fun GalleryUi(
+    listPhotos: List<BaseModel>,
+    navigateToPhoto: (Int) -> Unit,
+    navigateToSlider: () -> Unit
+) {
+    ConstraintLayout() {
+        val (sliderButton, contentGallery) = createRefs()
+
+        LazyVerticalGrid(
+            modifier = Modifier
+                .constrainAs(contentGallery) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                    top.linkTo(parent.top)
+                },
+            cells = GridCells.Fixed(3),
+            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 120.dp)
+        ) {
+            itemsIndexed(listPhotos) { index, item ->
+                if (item is PhotoModel) {
+                    PhotoItem(item, index, navigateToPhoto)
+                }
             }
         }
+
+        Button(
+            modifier = Modifier
+                .wrapContentWidth()
+                .height(56.dp)
+                .constrainAs(sliderButton) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom, margin = 68.dp)
+                },
+            elevation = ButtonDefaults.elevation(defaultElevation = 6.dp),
+            onClick = navigateToSlider,
+            shape = RoundedCornerShape(36.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.secondary
+            )
+        ) {
+            Text(
+                modifier = Modifier.padding(start = 24.dp, end = 24.dp),
+                text = stringResource(id = R.string.gallery_show_slider),
+                style = MaterialTheme.typography.button,
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
     }
+
 }
 
 @Composable

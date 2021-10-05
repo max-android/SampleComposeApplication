@@ -76,7 +76,8 @@ dependencies {
     implementation "dev.chrisbanes.accompanist:accompanist-insets:0.6.2"
     implementation "androidx.compose.runtime:runtime-saved-instance-state:1.0.0-alpha11"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.18.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.19.0"
+    implementation "com.google.accompanist:accompanist-pager:0.19.0"
 //    implementation "me.vponomarenko:compose-shimmer:1.0.0"
 
     // Compose Image
