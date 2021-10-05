@@ -22,6 +22,7 @@ import com.sample.ru.features.news.ListNewsScreenFactory
 import com.sample.ru.features.article.ArticleScreenFactory
 import com.sample.ru.features.detailPhoto.DetailPhotoScreenFactory
 import com.sample.ru.features.profile.ProfileScreenFactory
+import com.sample.ru.features.sliderPhoto.SliderPhotoScreenFactory
 import com.sample.ru.features.zoom.ZoomScreenFactory
 import com.sample.ru.navigation.*
 
@@ -93,6 +94,7 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
                 MemScreenFactory().create(this, navController)
                 DetailPhotoScreenFactory().create(this, navController)
                 ZoomScreenFactory().create(this, navController)
+                SliderPhotoScreenFactory().create(this, navController)
             }
         }
     )

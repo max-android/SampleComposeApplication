@@ -15,9 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -55,7 +53,7 @@ fun GalleryComponent(navController: NavController) {
             viewModel.obtainEvent(ClickItemGalleryEvent(position))
         },
         navigateToSlider = {
-
+            viewModel.obtainEvent(ClickSliderPhotoEvent)
         }
     )
     ObserveSideEffect(sideEffect, navController)
@@ -159,6 +157,9 @@ private fun ObserveSideEffect(sideEffect: GallerySideEffect?, navController: Nav
         when (photoSideEffect) {
             is ShowPhoto -> {
                 navController.navigateSafe("${Screen.DetailImageScreen.route}/${photoSideEffect.position}")
+            }
+            is ShowSliderPhoto -> {
+                navController.navigateSafe(Screen.SliderPhotoScreen.route)
             }
         }
     }

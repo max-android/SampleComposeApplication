@@ -31,6 +31,9 @@ class GalleryViewModel @Inject constructor(
             is ClickItemGalleryEvent -> {
                 clickPhotoAction(event.position)
             }
+            is ClickSliderPhotoEvent -> {
+                clickSliderPhotoAction()
+            }
         }
     }
 
@@ -43,6 +46,12 @@ class GalleryViewModel @Inject constructor(
     private fun clickPhotoAction(position: Int) {
         viewModelScope.launch {
             _sideEffect.emit(ShowPhoto(position))
+        }
+    }
+
+    private fun clickSliderPhotoAction() {
+        viewModelScope.launch {
+            _sideEffect.emit(ShowSliderPhoto)
         }
     }
 

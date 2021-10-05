@@ -10,4 +10,5 @@ object NavRoute {
     const val MEM_ROUTE = "mem"
     const val DETAIL_IMAGE_ROUTE = "detail_image"
     const val ZOOM_IMAGE_ROUTE = "zoom_image"
+    const val SLIDER_PHOTO_ROUTE = "slider_photo_image"
 }
