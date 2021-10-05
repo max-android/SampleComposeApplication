@@ -5,3 +5,5 @@ sealed interface DetailPhotoEvent
 value class ShowContentDetailPhotoEvent(val position: Int): DetailPhotoEvent
 @JvmInline
 value class ClickDetailPhotoEvent(val photoUrl: String): DetailPhotoEvent
+@JvmInline
+value class ClickWebLinkEvent(val webLink: String): DetailPhotoEvent

@@ -21,6 +21,7 @@ import com.sample.ru.features.memes.MemesScreenFactory
 import com.sample.ru.features.news.ListNewsScreenFactory
 import com.sample.ru.features.article.ArticleScreenFactory
 import com.sample.ru.features.detailPhoto.DetailPhotoScreenFactory
+import com.sample.ru.features.photoWebView.PhotoWebViewScreenFactory
 import com.sample.ru.features.profile.ProfileScreenFactory
 import com.sample.ru.features.sliderPhoto.SliderPhotoScreenFactory
 import com.sample.ru.features.zoom.ZoomScreenFactory
@@ -95,6 +96,7 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
                 DetailPhotoScreenFactory().create(this, navController)
                 ZoomScreenFactory().create(this, navController)
                 SliderPhotoScreenFactory().create(this, navController)
+                PhotoWebViewScreenFactory().create(this, navController)
             }
         }
     )

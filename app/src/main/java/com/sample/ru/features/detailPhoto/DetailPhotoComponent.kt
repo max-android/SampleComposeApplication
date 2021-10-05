@@ -64,16 +64,24 @@ private fun DetailImageComponent(backStackEntry: NavBackStackEntry, navControlle
         state,
         navigateToZoomPhoto = { photoUrl ->
             viewModel.obtainEvent(ClickDetailPhotoEvent(photoUrl))
-        })
+        },
+        navigateToWebView = { webLink ->
+            viewModel.obtainEvent(ClickWebLinkEvent(webLink))
+        }
+    )
     ObserveSideEffect(sideEffect, navController)
 }
 
 @Composable
-private fun ObserveState(state: DetailPhotoState?, navigateToZoomPhoto: (String) -> Unit) {
+private fun ObserveState(
+    state: DetailPhotoState?,
+    navigateToZoomPhoto: (String) -> Unit,
+    navigateToWebView: (String) -> Unit
+) {
     state?.let { photoState ->
         when (photoState) {
             is SuccessDetailPhoto -> {
-                PhotoDetailUi(photoState.photo, navigateToZoomPhoto)
+                PhotoDetailUi(photoState.photo, navigateToZoomPhoto, navigateToWebView)
             }
             is EmptyDetailPhoto -> {
                 EmptyDetailItemUi()
@@ -83,7 +91,11 @@ private fun ObserveState(state: DetailPhotoState?, navigateToZoomPhoto: (String)
 }
 
 @Composable
-private fun PhotoDetailUi(photo: PhotoModel, photoClick: (String) -> Unit) {
+private fun PhotoDetailUi(
+    photo: PhotoModel,
+    photoClick: (String) -> Unit,
+    webLinkClick: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
     Card(
         modifier = Modifier
@@ -128,7 +140,7 @@ private fun PhotoDetailUi(photo: PhotoModel, photoClick: (String) -> Unit) {
                 modifier = Modifier
                     .padding(start = 8.dp, bottom = 8.dp)
                     .clickable {
-
+                        webLinkClick.invoke(photo.url)
                     },
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.onPrimary,
@@ -145,6 +157,11 @@ private fun ObserveSideEffect(sideEffect: DetailPhotoSideEffect?, navController:
             is ShowZoomPhoto -> {
                 navController.navigateSafe(
                     "${Screen.ZoomImageScreen.route}/${photoSideEffect.photoUrl.toEncodedUrl()}"
+                )
+            }
+            is ShowWebLinkPhoto -> {
+                navController.navigateSafe(
+                    "${Screen.PhotoWebViewScreen.route}/${photoSideEffect.webLink.toEncodedUrl()}"
                 )
             }
         }

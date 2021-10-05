@@ -7,3 +7,4 @@ const val READ_TIMEOUT = 10000L
 const val WRITE_TIMEOUT = 10000L
 const val TOTAL_ITEM = 10
 const val DEFAULT_POSITION = 0
+const val AGENT = "Android"

@@ -28,6 +28,9 @@ class DetailPhotoViewModel @Inject constructor(
             is ClickDetailPhotoEvent -> {
                 clickDetailPhotoAction(event.photoUrl)
             }
+            is ClickWebLinkEvent -> {
+                clickWebLinkAction(event.webLink)
+            }
         }
     }
 
@@ -41,6 +44,12 @@ class DetailPhotoViewModel @Inject constructor(
     private fun clickDetailPhotoAction(photoUrl: String) {
         viewModelScope.launch {
             _sideEffect.emit(ShowZoomPhoto(photoUrl))
+        }
+    }
+
+    private fun clickWebLinkAction(webLink: String) {
+        viewModelScope.launch {
+            _sideEffect.emit(ShowWebLinkPhoto(webLink))
         }
     }
 
