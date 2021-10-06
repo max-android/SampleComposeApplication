@@ -4,12 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import com.sample.ru.features.base.ComposeWebView
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.KEY_PHOTO_WEB_LINK

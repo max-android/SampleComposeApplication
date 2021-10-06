@@ -5,15 +5,13 @@ import com.sample.ru.BuildConfig
 import com.sample.ru.data.local.ProfileSettings
 import com.sample.ru.data.network.*
 import com.sample.ru.data.service.CacheService
+import com.sample.ru.data.service.FileService
 import com.sample.ru.util.createRestService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
@@ -105,12 +103,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideExternalScope(): CoroutineScope = CoroutineScope(Job() + Dispatchers.Main)
-
-    @Provides
-    @Singleton
     fun provideProfileSettings(
         @ApplicationContext appContext: Context
     ): ProfileSettings = ProfileSettings(appContext)
+
+    @Provides
+    @Singleton
+    fun provideFileService(
+        @ApplicationContext appContext: Context
+    ): FileService = FileService(appContext)
 
 }

@@ -28,13 +28,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sample.ru.data.model.ProfileModel
 import com.sample.ru.features.base.LineElement
+import com.sample.ru.navigation.navigateSafe
 import com.sample.ru.util.EMPTY_VALUE
 
 class ProfileScreenFactory(private val onDarkModeChanged: (Boolean) -> Unit) : ComposeNavFactory {
 
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screen.ProfileScreen.route) {
-            ProfileComponent(onDarkModeChanged)
+            ProfileComponent(onDarkModeChanged, navController)
         }
     }
 
@@ -42,21 +43,26 @@ class ProfileScreenFactory(private val onDarkModeChanged: (Boolean) -> Unit) : C
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ProfileComponent(onDarkModeChanged: (Boolean) -> Unit) {
+fun ProfileComponent(onDarkModeChanged: (Boolean) -> Unit, navController: NavController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val state: ProfileState? by viewModel.state.collectAsState()
+    val sideEffect: ProfileSideEffect? by viewModel.sideEffect.collectAsState(null)
     val keyboardController = LocalSoftwareKeyboardController.current
     ObserveState(
         state,
         onCheckedChangeSwitch = {
-            viewModel.obtainEvent(ChangeSwitch(it))
+            viewModel.obtainEvent(ChangeSwitchEvent(it))
         },
         onUserNameChange = {
             //keyboardController?.hide()
-            viewModel.obtainEvent(EditProfileName(it))
+            viewModel.obtainEvent(EditProfileNameEvent(it))
         },
-        onDarkModeChanged = onDarkModeChanged
+        onDarkModeChanged = onDarkModeChanged,
+        onClickImagesLoad = {
+            viewModel.obtainEvent(LoadPhoneImageEvent)
+        }
     )
+    ObserveSideEffect(sideEffect, navController)
 }
 
 @Composable
@@ -64,16 +70,17 @@ private fun ObserveState(
     state: ProfileState?,
     onCheckedChangeSwitch: (Boolean) -> Unit,
     onUserNameChange: (String) -> Unit,
-    onDarkModeChanged: (Boolean) -> Unit
+    onDarkModeChanged: (Boolean) -> Unit,
+    onClickImagesLoad: () -> Unit
 ) {
     state?.let { profileState ->
         when (profileState) {
             is SuccessProfile -> {
-                ProfileUi(
-                    profileState.profileModel,
+                ProfileUi(profileState.profileModel,
                     onCheckedChangeSwitch,
                     onUserNameChange,
-                    onDarkModeChanged
+                    onDarkModeChanged,
+                    onClickImagesLoad
                 )
             }
         }
@@ -85,7 +92,8 @@ fun ProfileUi(
     profile: ProfileModel,
     onCheckedChangeSwitch: (Boolean) -> Unit,
     onUserNameChange: (String) -> Unit,
-    onDarkModeChanged: (Boolean) -> Unit
+    onDarkModeChanged: (Boolean) -> Unit,
+    onClickImagesLoad: () -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -106,7 +114,7 @@ fun ProfileUi(
         ConfigureElement()
         DecorationElement()
         SettingSwitchElement(profile, onCheckedChangeSwitch, onDarkModeChanged)
-        SettingElement()
+        SettingElement(onClickImagesLoad)
     }
 }
 
@@ -280,7 +288,7 @@ fun SettingSwitchElement(
 }
 
 @Composable
-fun SettingElement() {
+fun SettingElement(onClickImagesLoad: () -> Unit) {
     Card(
         modifier = Modifier
             .wrapContentHeight()
@@ -289,7 +297,7 @@ fun SettingElement() {
         shape = RoundedCornerShape(16.dp),
         elevation = 4.dp
     ) {
-        Column() {
+        Column {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -350,11 +358,45 @@ fun SettingElement() {
                     text = stringResource(id = R.string.settings_text_description),
                 )
             }
+            LoadPhotoElement(onClickImagesLoad)
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun LoadPhotoElement(onClickImagesLoad: () -> Unit) {
+    OutlinedButton(
+        onClick = {
+            onClickImagesLoad.invoke()
+        },
+        modifier = Modifier
+            .padding(top = 16.dp, bottom = 16.dp, start = 68.dp, end = 68.dp)
+            .height(56.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(
+                id = R.string.settings_load_images
+            ),
+            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
+            style = MaterialTheme.typography.button,
+            color = MaterialTheme.colors.onPrimary
+        )
+    }
+}
+
+@Composable
+private fun ObserveSideEffect(sideEffect: ProfileSideEffect?, navController: NavController) {
+    sideEffect?.let { profileSideEffect ->
+        when (profileSideEffect) {
+            is ShowPhoneImage -> {
+                navController.navigateSafe(Screen.PhoneImageScreen.route)
+            }
         }
     }
 }

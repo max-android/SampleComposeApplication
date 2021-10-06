@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.ru.data.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +16,9 @@ class ProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow<ProfileState?>(null)
     val state: StateFlow<ProfileState?> = _state.asStateFlow()
 
+    private val _sideEffect = MutableSharedFlow<ProfileSideEffect?>()
+    val sideEffect: SharedFlow<ProfileSideEffect?> = _sideEffect.asSharedFlow()
+
     init {
         obtainEvent(ShowContentProfileEvent)
     }
@@ -28,11 +28,14 @@ class ProfileViewModel @Inject constructor(
             is ShowContentProfileEvent -> {
                 showContentAction()
             }
-            is ChangeSwitch -> {
+            is ChangeSwitchEvent -> {
                 clickSwitchAction(event.enabledSwitch)
             }
-            is EditProfileName -> {
+            is EditProfileNameEvent -> {
                 editProfileNameAction(event.userName)
+            }
+            is LoadPhoneImageEvent -> {
+                loadPhoneImageAction()
             }
         }
     }
@@ -57,5 +60,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    private fun loadPhoneImageAction() {
+        viewModelScope.launch {
+            _sideEffect.emit(ShowPhoneImage)
+        }
+    }
 
 }

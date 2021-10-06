@@ -1,12 +1,7 @@
 package com.sample.ru.features.zoom
 
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import com.sample.ru.features.base.ZoomableComposable
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.KEY_PHOTO_URL
@@ -14,6 +9,7 @@ import com.sample.ru.navigation.Screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.*
+import androidx.navigation.*
 
 class ZoomScreenFactory : ComposeNavFactory {
 

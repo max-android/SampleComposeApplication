@@ -12,4 +12,6 @@ sealed class Screen(val route: String) {
     object ZoomImageScreen: Screen(NavRoute.ZOOM_IMAGE_ROUTE)
     object SliderPhotoScreen: Screen(NavRoute.SLIDER_PHOTO_ROUTE)
     object PhotoWebViewScreen: Screen(NavRoute.PHOTO_WEB_VIEW_ROUTE)
+    object PhoneImageScreen: Screen(NavRoute.PHONE_IMAGE_ROUTE)
+    object ListPhoneImageScreen: Screen(NavRoute.LIST_PHONE_IMAGE_ROUTE)
 }

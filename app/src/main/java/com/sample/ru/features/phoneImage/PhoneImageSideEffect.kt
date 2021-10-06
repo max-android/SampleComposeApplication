@@ -1,0 +1,5 @@
+package com.sample.ru.features.phoneImage
+
+sealed interface PhoneImageSideEffect
+object LoadAllSavedPhoneImage: PhoneImageSideEffect
+object BackFromPhoneImage: PhoneImageSideEffect

@@ -26,6 +26,10 @@
     <string name="settings_text">Settings text</string>
     <string name="settings_text_description">add text</string>
     <string name="settings_enter_name">Enter name</string>
+    <string name="settings_load_images">Load image</string>
     <string name="settings_email_format_is_invalid">Email format is invalid.</string>
+
+    //PhoneImage
+    <string name="phone_image_load_image">Load saved image</string>
 
 </resources>

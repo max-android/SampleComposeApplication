@@ -10,15 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.sample.ru.R
@@ -27,7 +22,6 @@ import com.sample.ru.features.base.EmptyDetailItemUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.KEY_MEM_ID
 import com.sample.ru.navigation.Screen
-import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.DEFAULT_POSITION
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
