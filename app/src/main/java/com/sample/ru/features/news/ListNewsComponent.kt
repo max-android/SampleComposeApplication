@@ -13,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -29,7 +27,6 @@ import com.sample.ru.features.base.EmptyListUi
 import com.sample.ru.navigation.ComposeNavFactory
 import com.sample.ru.navigation.Screen
 import com.sample.ru.navigation.navigateSafe
-import com.sample.ru.ui.theme.Purple700
 import com.sample.ru.util.composeContext
 import com.sample.ru.util.toDate
 

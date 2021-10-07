@@ -5,6 +5,7 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.*
+import com.sample.ru.util.slashEquality
 
 /**
  * Позволяет осуществлять переход по навигации в безопасном режиме и
@@ -15,7 +16,7 @@ fun NavController.navigateSafe(
     navOptions: NavOptions? = null,
     navExtras: Navigator.Extras? = null
 ) {
-    if (currentDestination?.route != route) {
+    if (currentDestination?.route != route && slashEquality(currentDestination?.route.orEmpty(), route)) {
         navigate(route, navOptions, navExtras)
     }
 }
@@ -24,7 +25,7 @@ fun NavController.navigateSafeWithBuilder(
     route: String,
     builder: NavOptionsBuilder.() -> Unit
 ) {
-    if (currentDestination?.route != route) {
+    if (currentDestination?.route != route && slashEquality(currentDestination?.route.orEmpty(), route)) {
         navigate(route, builder)
     }
 }

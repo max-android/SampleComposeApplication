@@ -11,25 +11,29 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 fun String.toDate(): String {
-   return this.replaceAfter("T", "").replace("T", "")
+    return this.replaceAfter("T", "").replace("T", "")
 }
 
 fun String.toEncodedUrl(): String {
-   return URLEncoder.encode(this, StandardCharsets.UTF_8.toString())
+    return URLEncoder.encode(this, StandardCharsets.UTF_8.toString())
 }
 
 fun Uri.toBitmap(context: Context): Bitmap? {
-   val bitmap = mutableStateOf<Bitmap?>(null)
+    val bitmap = mutableStateOf<Bitmap?>(null)
 
-   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      val source = ImageDecoder.createSource(context.contentResolver, this)
-      bitmap.value = ImageDecoder.decodeBitmap(source)
-   } else {
-      bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, this)
-   }
-   return bitmap.value
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val source = ImageDecoder.createSource(context.contentResolver, this)
+        bitmap.value = ImageDecoder.decodeBitmap(source)
+    } else {
+        bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, this)
+    }
+    return bitmap.value
 }
 
-fun String.toJpeg(): String{
-   return this.plus(".jpg")
+fun String.toJpeg(): String {
+    return this.plus(".jpg")
+}
+
+fun slashEquality(firstStr: String, secondStr: String): Boolean {
+    return firstStr.replaceAfter('/', "") != secondStr.replaceAfter('/', "")
 }

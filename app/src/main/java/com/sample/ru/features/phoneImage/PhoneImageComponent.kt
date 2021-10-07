@@ -90,7 +90,7 @@ private fun ObserveSideEffect(sideEffect: PhoneImageSideEffect?, navController: 
                  navController.navigateSafe(Screen.ListPhoneImageScreen.route)
             }
             is BackFromPhoneImage -> {
-                navController.popBackStack()
+                navController.popBackStack(route = Screen.ProfileScreen.route, inclusive = false)
             }
         }
     }
@@ -171,12 +171,14 @@ private fun PhoneImageUi(
                     text = stringResource(
                         id = R.string.phone_image_load_image
                     ),
-                    modifier = Modifier.padding(
-                        top = 8.dp,
-                        bottom = 8.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    ).background(Color.Transparent),
+                    modifier = Modifier
+                        .padding(
+                            top = 8.dp,
+                            bottom = 8.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        )
+                        .background(Color.Transparent),
                     style = MaterialTheme.typography.button,
                     color = MaterialTheme.colors.onPrimary
                 )

@@ -1,5 +1,6 @@
 package com.sample.ru.features.base
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -26,9 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.sample.ru.ui.theme.SampleComposeAppTheme
 import com.sample.ru.R
-import com.sample.ru.ui.theme.Gray
 import com.sample.ru.ui.theme.Teal200
-import timber.log.Timber
 
 @Composable
 fun ArrowSample() {
@@ -622,4 +622,9 @@ fun EmptyDetailItemUi() {
                 .align(Alignment.Center)
         )
     }
+}
+
+@Composable
+fun ShowToast(message: String){
+    Toast.makeText(LocalContext.current, message, Toast.LENGTH_SHORT).show()
 }
