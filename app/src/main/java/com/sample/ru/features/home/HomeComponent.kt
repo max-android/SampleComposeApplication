@@ -51,7 +51,6 @@ class HomeScreenFactory : ComposeNavFactory {
 
 @Composable
 fun HomeComponent(navController: NavController) {
-    Timber.tag("--LOG-48").i("-----HomeComponent")
     val scrollState = rememberScrollState()
     val viewModel = hiltViewModel<HomeViewModel>()
     val state: HomeState? by viewModel.state.collectAsState()
@@ -74,19 +73,12 @@ private fun ObserveState(
     navigateToNews: () -> Unit,
     navigateToMemes: () -> Unit
 ) {
-    //TODO
-    Timber.tag("--LOG-72").i("-----ObserveState")
-    // var loadProgress: Boolean by remember { mutableStateOf(true) }
     state?.let { homeState ->
         when (homeState) {
             is LoadingHome -> {
-                //TODO
-                Timber.tag("--LOG-77").i("-----LoadingHome")
                 LoadProgress()
             }
             is SuccessHome -> {
-                //TODO
-                Timber.tag("--LOG-81").i("-----SuccessHome")
                 HomeUi(scrollState, homeState, navigateToNews, navigateToMemes)
             }
             is ErrorHome -> {
@@ -117,10 +109,6 @@ private fun HomeUi(
     navigateToNews: () -> Unit,
     navigateToMemes: () -> Unit
 ) {
-    //TODO
-    Timber.tag("--LOG-1").i("-----" + successHome.articleModels.size)
-    Timber.tag("--LOG-2").i("-----" + successHome.memes.size)
-    Timber.tag("--LOG-3").i("-----" + successHome.photoModels.size)
     Column(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp, bottom = 68.dp, top = 16.dp)
@@ -354,7 +342,6 @@ private fun OfferList() {
         OfferElement()
     }
 }
-
 
 @Composable
 private fun OfferElement() {

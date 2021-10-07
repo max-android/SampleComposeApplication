@@ -63,9 +63,10 @@ fun BackHandler(enabled: Boolean = true, onBack: () -> Unit) {
 fun NavDestination.updateSelectedTab(index: Int, tabBarItem: BottomNavItem): Boolean {
     return route == tabBarItem.screen.route ||
             route == Screen.ListNewsScreen.route && index == 0 ||
-            //TODO
-           // route == Screen.ArticleScreen.route && index == 0 ||
             route == Screen.MemesScreen.route && index == 0
+            //TODO
+//            route.orEmpty().contains(Screen.ArticleScreen.route) && index == 0 ||
+//            route.orEmpty().contains(Screen.MemScreen.route) && index == 0
 }
 
 fun isNeedShowBottomBar(navBackStackEntry: NavBackStackEntry?): Boolean {
@@ -75,9 +76,10 @@ fun isNeedShowBottomBar(navBackStackEntry: NavBackStackEntry?): Boolean {
                 currentDestination.contains(Screen.GalleryScreen.route) ||
                 currentDestination.contains(Screen.ProfileScreen.route) ||
                 currentDestination.contains(Screen.ListNewsScreen.route) ||
-                //TODO
-               // currentDestination.contains(Screen.ArticleScreen.route) ||
                 currentDestination.contains(Screen.MemesScreen.route)
+                //TODO
+//                currentDestination.contains(Screen.ArticleScreen.route) ||
+//                currentDestination.contains(Screen.MemScreen.route)
     }
     return false
 }

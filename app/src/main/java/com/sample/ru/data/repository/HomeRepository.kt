@@ -20,8 +20,6 @@ class HomeRepository(
 ) {
 
     suspend fun loadHomeData(): HomeState {
-        //TODO
-        Timber.tag("--LOG-21").i("-----loadHomeData()")
         return try {
             coroutineScope {
                 val memesDeferred = async { memesRestService.memes() }

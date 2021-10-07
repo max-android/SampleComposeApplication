@@ -78,7 +78,7 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
 //                                        // reselecting the same item
                                     launchSingleTop = true
                                     // Restore state when reselecting a previously selected item
-                                    // restoreState = true
+                                     restoreState = true
                                 }
                             }
                         )
