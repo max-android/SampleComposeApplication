@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.sample.ru.ui.theme.SampleComposeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.runtime.*
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.sample.ru.ui.theme.darkThemeColors
 import com.sample.ru.ui.theme.lightThemeColors
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val state: MainState? by viewModel.state.collectAsState()
