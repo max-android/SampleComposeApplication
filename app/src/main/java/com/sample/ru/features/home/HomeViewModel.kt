@@ -34,6 +34,9 @@ class HomeViewModel @Inject constructor(
             is ClickMemHomeEvent -> {
                 clickMemAction()
             }
+            is ClickFoodDashboardEvent -> {
+                clickFoodDashboardAction()
+            }
         }
     }
 
@@ -52,6 +55,12 @@ class HomeViewModel @Inject constructor(
     private fun clickMemAction() {
         viewModelScope.launch {
             _sideEffect.emit(StartMemes)
+        }
+    }
+
+    private fun clickFoodDashboardAction() {
+        viewModelScope.launch {
+            _sideEffect.emit(StartFoodDashboard)
         }
     }
 

@@ -38,7 +38,6 @@ import com.sample.ru.features.base.LoadError
 import com.sample.ru.features.base.LoadProgress
 import com.sample.ru.util.TOTAL_ITEM
 import com.sample.ru.util.toDate
-import timber.log.Timber
 
 class HomeScreenFactory : ComposeNavFactory {
 
@@ -60,9 +59,14 @@ fun HomeComponent(navController: NavController) {
         scrollState,
         navigateToNews = {
             viewModel.obtainEvent(ClickArticleHomeEvent)
-        }, navigateToMemes = {
+        },
+        navigateToMemes = {
             viewModel.obtainEvent(ClickMemHomeEvent)
-        })
+        },
+        navigateToFoodDashboard = {
+            viewModel.obtainEvent(ClickFoodDashboardEvent)
+        }
+    )
     ObserveSideEffect(sideEffect, navController)
 }
 
@@ -71,7 +75,8 @@ private fun ObserveState(
     state: HomeState?,
     scrollState: ScrollState,
     navigateToNews: () -> Unit,
-    navigateToMemes: () -> Unit
+    navigateToMemes: () -> Unit,
+    navigateToFoodDashboard: () -> Unit
 ) {
     state?.let { homeState ->
         when (homeState) {
@@ -79,7 +84,9 @@ private fun ObserveState(
                 LoadProgress()
             }
             is SuccessHome -> {
-                HomeUi(scrollState, homeState, navigateToNews, navigateToMemes)
+                HomeUi(
+                    scrollState, homeState, navigateToNews, navigateToMemes, navigateToFoodDashboard
+                )
             }
             is ErrorHome -> {
                 LoadError()
@@ -98,6 +105,9 @@ private fun ObserveSideEffect(sideEffect: HomeSideEffect?, navController: NavCon
             is StartNews -> {
                 navController.navigateSafe(Screen.ListNewsScreen.route)
             }
+            is StartFoodDashboard -> {
+                navController.navigateSafe(Screen.FoodDashboardScreen.route)
+            }
         }
     }
 }
@@ -107,7 +117,8 @@ private fun HomeUi(
     scrollState: ScrollState,
     successHome: SuccessHome,
     navigateToNews: () -> Unit,
-    navigateToMemes: () -> Unit
+    navigateToMemes: () -> Unit,
+    navigateToFoodDashboard: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -117,7 +128,7 @@ private fun HomeUi(
     ) {
         ListNews(successHome.articleModels, navigateToNews)
         ListMemes(successHome.memes, navigateToMemes)
-        ListFoods(successHome.foods)
+        ListFoods(successHome.foods, navigateToFoodDashboard)
         ThematicList(thematic = successHome.thematic)
         OfferList()
         BaseSpacer()
@@ -256,7 +267,7 @@ private fun MemElement(memModel: MemModel, navigateToMemes: () -> Unit) {
 }
 
 @Composable
-private fun ListFoods(foods: List<FoodModel>) {
+private fun ListFoods(foods: List<FoodModel>, navigateToFoodDashboard: () -> Unit) {
     val scrollState = rememberScrollState()
     Row(
         modifier = Modifier
@@ -264,19 +275,22 @@ private fun ListFoods(foods: List<FoodModel>) {
             .horizontalScroll(scrollState)
     ) {
         foods.forEach { foodModel ->
-            FoodElement(foodModel)
+            FoodElement(foodModel, navigateToFoodDashboard)
         }
     }
 }
 
 @Composable
-private fun FoodElement(foodModel: FoodModel) {
+private fun FoodElement(foodModel: FoodModel, onClickFoodItem: () -> Unit) {
     Box(
         modifier = Modifier
             .size(176.dp)
             .graphicsLayer {
                 shape = RoundedCornerShape(24.dp)
                 clip = true
+            }
+            .clickable {
+                onClickFoodItem.invoke()
             }
     ) {
         Image(

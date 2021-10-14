@@ -23,7 +23,18 @@ data class FoodBody(
     @SerializedName("title")
     val title: String,
     @SerializedName("subTitle")
-    val subTitle: String,
+    val subTitle: String?,
     @SerializedName("imageUrl")
-    val imageUrl: String
+    val imageUrl: String,
+    @SerializedName("meta")
+    val foodMetaData: FoodMetaData?
+)
+
+data class FoodMetaData(
+    @SerializedName("rating")
+    val rating: String?,
+    @SerializedName("reviewCount")
+    val reviewCount: String?,
+    @SerializedName("hasFreeDelivery")
+    val hasFreeDelivery: Boolean?
 )

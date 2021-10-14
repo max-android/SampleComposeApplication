@@ -14,4 +14,5 @@ sealed class Screen(val route: String) {
     object PhotoWebViewScreen: Screen(NavRoute.PHOTO_WEB_VIEW_ROUTE)
     object PhoneImageScreen: Screen(NavRoute.PHONE_IMAGE_ROUTE)
     object ListPhoneImageScreen: Screen(NavRoute.LIST_PHONE_IMAGE_ROUTE)
+    object FoodDashboardScreen: Screen(NavRoute.FOOD_DASHBOARD_ROUTE)
 }

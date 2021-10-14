@@ -32,4 +32,7 @@
     //PhoneImage
     <string name="phone_image_load_image">Load saved image</string>
 
+    //FoodDashboard
+    <string name="food_dashboard_is_free">FreeDelivery</string>
+
 </resources>

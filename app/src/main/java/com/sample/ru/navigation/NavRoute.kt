@@ -14,4 +14,5 @@ object NavRoute {
     const val PHOTO_WEB_VIEW_ROUTE = "photo_web_view"
     const val PHONE_IMAGE_ROUTE = "phone_image"
     const val LIST_PHONE_IMAGE_ROUTE = "list_phone_image"
+    const val FOOD_DASHBOARD_ROUTE = "food_dashboard"
 }

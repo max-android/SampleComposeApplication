@@ -4,3 +4,4 @@ sealed class HomeEvent
 object ShowContentHomeEvent: HomeEvent()
 object ClickArticleHomeEvent: HomeEvent()
 object ClickMemHomeEvent: HomeEvent()
+object ClickFoodDashboardEvent: HomeEvent()

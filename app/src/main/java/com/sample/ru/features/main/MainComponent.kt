@@ -21,6 +21,7 @@ import com.sample.ru.features.memes.MemesScreenFactory
 import com.sample.ru.features.news.ListNewsScreenFactory
 import com.sample.ru.features.article.ArticleScreenFactory
 import com.sample.ru.features.detailPhoto.DetailPhotoScreenFactory
+import com.sample.ru.features.foodDashboard.FoodDashboardScreenFactory
 import com.sample.ru.features.listPhoneImage.ListPhoneImageScreenFactory
 import com.sample.ru.features.phoneImage.PhoneImageScreenFactory
 import com.sample.ru.features.photoWebView.PhotoWebViewScreenFactory
@@ -101,6 +102,7 @@ fun MainComponent(onDarkModeChanged: (Boolean) -> Unit) {
                 PhotoWebViewScreenFactory().create(this, navController)
                 PhoneImageScreenFactory().create(this, navController)
                 ListPhoneImageScreenFactory().create(this, navController)
+                FoodDashboardScreenFactory().create(this, navController)
             }
         }
     )
